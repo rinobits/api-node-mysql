@@ -8,7 +8,6 @@ case $yn in
 esac
 git add .
 git commit -m "gitUpdate"
-git fetch
 git pull
 git push origin master
 
