@@ -8,10 +8,8 @@ const productServices           = new ProductServices();
 const searchProducts = () => {
     return (req, res, next) => {
         productServices.findProducts()
-            .then(responses => res.json(responses))
-            .catch(err => {
-                res.send("Not Done")
-            })
+            .then(responses => res.json({products: responses}))
+            .catch(res.json({error: "not done"}))
         }
 }
 const searchProductById = () => {
@@ -20,11 +18,9 @@ const searchProductById = () => {
         productServices.findProductById(id)
             .then(response => {
                 delete response.productPassword;
-                res.json({'product': response})
+                res.json({product: response})
             })
-            .catch(err => {
-                res.send("Not Done")
-            })
+            .catch(res.json({error: "not done"}))
     }
 }
 const createProduct = () => {
@@ -35,9 +31,7 @@ const createProduct = () => {
                 const {body} = req;
                 productServices.createProduct(body)
                     .then(response => res.json({id: response}))
-                    .catch(err => {
-                        res.send("Not Created")
-                    })
+                    .catch(res.json({error: "not Created"}))
             }
         });
     }
@@ -51,9 +45,7 @@ const updateProductById = () => {
                 const {id}   = req.params;
                 productServices.updateProductById(id, body) // (!)
                     .then(response => res.json({id: response}))
-                    .catch(err => {
-                        res.send("Not Update")
-                    })
+                    .catch(res.json({error: "not Updated"}))
             }
         });
     }
@@ -65,10 +57,8 @@ const deleteProductById = () => {
             }else{
                 const {id} = req.params
                 productServices.deleteProductById(id)
-                    .then(response => res.json({'message' : 'product deleted'}))
-                    .catch(err => {
-                        res.send("Not Deleted")
-                    })
+                    .then(response => res.json({message : 'product deleted'}))
+                    .catch(res.json({error: "not deleted"}))
             }
         });
         }

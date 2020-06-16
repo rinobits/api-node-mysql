@@ -1,16 +1,16 @@
 // package
 const jwt                       = require('jsonwebtoken');
-// imports
+// imports & consts 
 const {config:{authJwtSecret}}  = require('../../config');
 const OrderServices = require('./services');
 const orderServices = new OrderServices();
+
 const searchOrders = () => {
     return (req, res, next) => {
         orderServices.findOrders()
-            .then(responses => res.json(responses))
-            .catch(err => {
-                res.send("Not Done")
-            })    }
+            .then(responses => res.json({orders: responses}))
+            .catch(res.json({error: "not done"}))
+        }
 }
 const searchOrderById = () => {
     return (req, res, next) => {
@@ -18,23 +18,20 @@ const searchOrderById = () => {
         orderServices.findOrderById(id)
             .then(response => {
                 delete response.orderPassword;
-                res.json({'order': response})
+                res.json({order: response})
             })
-            .catch(err => {
-                res.send("Not Done")
-            })    }
+            .catch(res.json({error: "not done"}))
+        }
 }
 const createOrder = () => {
-    return (req, res, next) => {
+       return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
             }else{
                 const {body} = req;
                 orderServices.createOrder(body)
                     .then(response => res.json({id: response}))
-                    .catch(err => {
-                        res.send("Not Created")
-                    })
+                    .catch(res.json({error: "not Created"}))
             }
         });
         }
@@ -48,9 +45,7 @@ const updateOrderById = () => {
                 const {id}   = req.params;
                 orderServices.updateOrderById(id, body) // (!)
                     .then(response => res.json({id: response}))
-                    .catch(err => {
-                        res.send("Not Updated")
-                    })
+                    .catch(res.json({error: "not Updated"}))
             }
         });
         }
@@ -62,10 +57,8 @@ const deleteOrderById = () => {
             }else{
                 const {id} = req.params
                 orderServices.deleteOrderById(id)
-                    .then(response => res.json({'message' : 'order deleted'}))
-                    .catch(err => {
-                        res.send("Not Deleted")
-                    })
+                    .then(response => res.json({message : 'order deleted'}))
+                    .catch(res.json({error: "not deleted"}))
             }
         });
     }
@@ -75,5 +68,6 @@ module.exports = {
     searchOrderById,
     createOrder,
     updateOrderById,
-    deleteOrderById};
+    deleteOrderById
+};
 

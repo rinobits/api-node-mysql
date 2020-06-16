@@ -13,16 +13,15 @@ module.exports =  (username, password) => {
                             const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'1h'});
                             resolve(token);
                         }else{
-                            reject({error : 'invalid user or password'})
+                            reject({error: "can't authenticate"})
                         }
                     })
                     .catch(e => {
-                        console.log(e);
-                        reject();
+                        reject({error: "can't authenticate"});
                     })
             })
             .catch(err => {
-                reject(err);
+                reject({error: "can't authenticate"});
             });
     });
 }

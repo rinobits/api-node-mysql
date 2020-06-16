@@ -13,9 +13,9 @@ const searchUsers = () => {
                 for(i = 0; i < responses._users.length; i++){
                     delete responses._users[i].dataValues.userPassword;
                 }
-                res.json(responses);
+                res.json({users: responses});
             })
-            .catch(err => next(err));
+            .catch(res.json({error: "not done"}))
     }
 }
 const searchUserById = () => {
@@ -24,12 +24,11 @@ const searchUserById = () => {
         userServices.findUserById(id)
             .then(response => {
                 delete response.user.dataValues.userPassword;
-                res.json(response)
+                res.json({user:response})
             })
-            .catch(err => next(err));
+            .catch(res.json({error: "not done"}))
     }
 }
-
 const createUser = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
@@ -39,7 +38,7 @@ const createUser = () => {
                 const {body} = req;
                 userServices.createUser(body)
                     .then(response => res.json({id: response}))
-                    .catch(err => next(err));
+                    .catch(res.json({error: "not Created"}));
             }
         });
     }
@@ -54,7 +53,7 @@ const updateUserById = () => {
                 const {id}   = req.params;
                 userServices.updateUserById(id, body) // (!)
                     .then(response => res.json({id: response}))
-                    .catch(err => next(err))
+                    .catch(res.json({error: "not Updated"}))
             }
         });
     }
@@ -67,10 +66,8 @@ const deleteUserById = () => {
             }else{
                 const {id} = req.params
                 userServices.deleteUserById(id)
-                    .then(response => res.json({'message' : 'user deleted'}))
-                    .catch(err => {
-                        res.send("Not Deleted")
-                    })
+                    .then(response => res.json({message : 'user deleted'}))
+                    .catch(res.json({error: "not deleted"}))
             }
         });
     }
