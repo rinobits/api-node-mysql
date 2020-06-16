@@ -4,7 +4,7 @@ class UserServices{
     findUsers(){
         return new Promise((resolve, reject) => {
             Users.findAll()
-                .then(r => resolve({"ALL USERS => " : r}))
+                .then(r => resolve({_users: r}))
                 .catch(e => reject(e));
         });
     }

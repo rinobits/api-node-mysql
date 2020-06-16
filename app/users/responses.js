@@ -8,7 +8,13 @@ const {config:{authJwtSecret}}  = require('../../config');
 const searchUsers = () => {
     return (req, res, next) => {
         userServices.findUsers()
-            .then(responses => res.json(responses))
+            .then(responses => {
+                let i = 0;
+                for(i = 0; i < responses._users.length; i++){
+                    delete responses._users[i].dataValues.userPassword;
+                }
+                res.json(responses);
+            })
             .catch(err => next(err));
     }
 }
@@ -17,8 +23,8 @@ const searchUserById = () => {
         const {id} = req.params;
         userServices.findUserById(id)
             .then(response => {
-                delete response.userPassword;
-                res.json({'user': response})
+                delete response.user.dataValues.userPassword;
+                res.json(response)
             })
             .catch(err => next(err));
     }
