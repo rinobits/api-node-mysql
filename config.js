@@ -10,6 +10,7 @@ const config = {
     defaultAdminName:     process.env.DEFAULT_ADMIN_USER,
     defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
     authJwtSecret:        process.env.AUTH_JWT_SECRET,
+    cors:                 process.env.CORS,
     dev:                  process.env.NODE_ENV !== 'production'
 };
 
