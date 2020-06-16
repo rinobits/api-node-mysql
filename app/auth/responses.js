@@ -1,7 +1,6 @@
 // packages
-const jwt                       = require('jsonwebtoken');
+const boom                      = require('@hapi/boom');
 // imports & consts
-const {config:{authJwtSecret}}  = require('../../config');
 const auth                      = require('./services');
 
 const login = (req, res) => {

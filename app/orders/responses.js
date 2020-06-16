@@ -1,5 +1,6 @@
 // package
 const jwt                       = require('jsonwebtoken');
+const boom                      = require('@hapi/boom');
 // imports & consts 
 const {config:{authJwtSecret}}  = require('../../config');
 const OrderServices = require('./services');
@@ -27,7 +28,7 @@ const createOrder = () => {
        return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
-                res.json({error: 'cant create'});
+                next(boom.badImplementation(err))
             }else{
                 const {body} = req;
                 orderServices.createOrder(body)
@@ -41,7 +42,7 @@ const updateOrderById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
-                res.json({error: 'cant update'});
+                next(boom.badImplementation(err))
             }else{
                 const {body} = req;
                 const {id}   = req.params;
@@ -56,7 +57,7 @@ const deleteOrderById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
-                res.json({error: 'cant delete'});
+                next(boom.badImplementation(err))
             }else{
                 const {id} = req.params
                 orderServices.deleteOrderById(id)
