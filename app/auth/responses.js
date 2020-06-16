@@ -1,14 +1,15 @@
 // packages
 const jwt                       = require('jsonwebtoken');
-// imports
+// imports & consts
 const {config:{authJwtSecret}}  = require('../../config');
-const Auth                      = require('./services');
+const auth                      = require('./services');
 
 const login = (req, res) => {
-    Auth(req.body.userName, req.body.userPassword)
+    auth(req.body.userName, req.body.userPassword)
         .then(r => res.json({response : r}))
         .catch(e => res.json({error: e}));
 }
+
 module.exports = {
     login
 }

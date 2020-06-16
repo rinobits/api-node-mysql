@@ -1,7 +1,6 @@
 // packages
 const Joi         = require('@hapi/joi');
-
-
+// consts
 const nombre      = Joi.string().min(2).max(15);
 const categoria   = Joi.string().min(3).max(20).allow("");
 const valor       = Joi.number().min(1).max(1000000).allow("");

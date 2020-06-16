@@ -1,9 +1,9 @@
 // packages
 const jwt                       = require('jsonwebtoken');
-// imports
+// imports & consts
 const UserServices              = require('./services');
-const userServices              = new UserServices();
 const {config:{authJwtSecret}}  = require('../../config');
+const userServices              = new UserServices();
 
 const searchUsers = () => {
     return (req, res, next) => {

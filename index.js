@@ -1,12 +1,12 @@
 // packages
 const express                             = require('express');
 const cors                                = require('cors');
-const app                                 = express();
 // imports & consts
 const routes                              = require('./app/routes'); 
 const {config}                            = require('./config');
 const notFoundHandler                     = require('./utils/middlewares/notFoundHandler');
 const {logError, wrapError, errorHandler} = require('./utils/middlewares/errorsHandlers');
+const app                                 = express();
 // cors
 app.use(cors());
 

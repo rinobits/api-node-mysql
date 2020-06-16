@@ -1,6 +1,7 @@
 
 const boom = require('@hapi/boom');
 const {config} = require('../../config');
+
 const logError = (err, req, res, next) => {
     console.log(err);
     next(err);

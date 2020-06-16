@@ -1,7 +1,7 @@
 // packages
 const express               = require('express');
 const router                = express.Router();
-// imports          
+// imports & consts
 const control               = require('./responses');
 const validatorHandler      = require('../../utils/middlewares/validatorHandler');
 const verifyToken           = require('../../utils/middlewares/verifyToken');

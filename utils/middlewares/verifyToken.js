@@ -1,7 +1,3 @@
-const jwt                       = require('jsonwebtoken');
-const {config:{authJwtSecret}}  = require('../../config');
-
-
 module.exports = (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
     if(bearerHeader != undefined){ // get boom
