@@ -4,12 +4,12 @@ const jwt                       = require('jsonwebtoken');
 const {config:{authJwtSecret}}  = require('../../config');
 const OrderServices = require('./services');
 const orderServices = new OrderServices();
-
+//.catch(e => next(boom.badImplementation(e)));
 const searchOrders = () => {
     return (req, res, next) => {
         orderServices.findOrders()
             .then(responses => res.json({orders: responses}))
-            .catch(res.json({error: "not done"}))
+            .catch(e => next(boom.badImplementation(e)));
         }
 }
 const searchOrderById = () => {
@@ -20,18 +20,19 @@ const searchOrderById = () => {
                 delete response.orderPassword;
                 res.json({order: response})
             })
-            .catch(res.json({error: "not done"}))
+            .catch(e => next(boom.badImplementation(e)));
         }
 }
 const createOrder = () => {
        return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant create'});
             }else{
                 const {body} = req;
                 orderServices.createOrder(body)
                     .then(response => res.json({id: response}))
-                    .catch(res.json({error: "not Created"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
         }
@@ -40,12 +41,13 @@ const updateOrderById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant update'});
             }else{
                 const {body} = req;
                 const {id}   = req.params;
                 orderServices.updateOrderById(id, body) // (!)
                     .then(response => res.json({id: response}))
-                    .catch(res.json({error: "not Updated"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
         }
@@ -54,11 +56,12 @@ const deleteOrderById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant delete'});
             }else{
                 const {id} = req.params
                 orderServices.deleteOrderById(id)
                     .then(response => res.json({message : 'order deleted'}))
-                    .catch(res.json({error: "not deleted"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
     }

@@ -7,7 +7,7 @@ const auth                      = require('./services');
 const login = (req, res) => {
     auth(req.body.userName, req.body.userPassword)
         .then(r => res.json({response : r}))
-        .catch(e => res.json({error: "can't authenticate"}));
+        .catch(e => next(boom.badImplementation(e)));
 }
 
 module.exports = {

@@ -3,22 +3,22 @@ class OrderServices{
     findOrders(){
         return new Promise((resolve, reject) => {
             Orders.findAll()
-                .then(r => resolve({"ALL USERS => " : r}))
+                .then(r => resolve(r))
                 .catch(e => reject(e));
         });
     }
     findOrderById(id){
         return new Promise((resolve, reject) => {
             Orders.findByPk(id)
-                .then(r => resolve({'user':r}))
-                .catch(e => reject(e));
+            .then(r => resolve(r))
+            .catch(e => reject(e));
         });
     }
     createOrder(body){
         return new Promise((resolve, reject) => {
             Orders.create(body)
-                .then(console.log)
-                .catch(console.log);
+            .then(r => resolve(r))
+            .catch(e => reject(e));
         });
     }
     updateOrderById(id, body){

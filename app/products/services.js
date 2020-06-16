@@ -4,22 +4,22 @@ class ProductServices{
     findProducts(){
         return new Promise((resolve, reject) => {
             Products.findAll()
-                .then(r => resolve({"ALL USERS => " : r}))
-                .catch(e => reject(e));
+            .then(r => resolve(r))
+            .catch(e => reject(e));
         });
     }
     findProductById(id){
         return new Promise((resolve, reject) => {
             Products.findByPk(id)
-                .then(r => resolve({'user':r}))
-                .catch(e => reject(e));
+            .then(r => resolve(r))
+            .catch(e => reject(e));
         });
     }
     createProduct(body){
         return new Promise((resolve, reject) => {
             Products.create(body)
-                .then(console.log)
-                .catch(console.log);
+            .then(r => resolve(r))
+            .catch(e => reject(e));
         });
     }
     updateProductById(id, body){

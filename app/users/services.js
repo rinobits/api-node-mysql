@@ -4,7 +4,7 @@ class UserServices{
     findUsers(){
         return new Promise((resolve, reject) => {
             Users.findAll()
-                .then(r => resolve({_users: r}))
+                .then(r => resolve({users: r})) 
                 .catch(e => reject(e));
         });
     }
@@ -21,8 +21,8 @@ class UserServices{
             .then(hash => {
                 body.userPassword = hash;
                 Users.create(body)
-                    .then(user => resolve(user))
-                    .catch(err => reject(err));
+                .then(r => resolve(r))
+                .catch(e => reject(e));
                 
             })
             .catch(e => console.log(e));
@@ -49,7 +49,7 @@ class UserServices{
                 if(r == 1) resolve({"DELETE DATA": true})
                 else reject({"DELETE DATA:": false})
             })
-            .catch(e => reject("Can't delete"));
+            .catch(e => reject(e));
         });
     }
     

@@ -9,7 +9,7 @@ const searchProducts = () => {
     return (req, res, next) => {
         productServices.findProducts()
             .then(responses => res.json({products: responses}))
-            .catch(res.json({error: "not done"}))
+            .catch(e => next(boom.badImplementation(e)));
         }
 }
 const searchProductById = () => {
@@ -20,18 +20,19 @@ const searchProductById = () => {
                 delete response.productPassword;
                 res.json({product: response})
             })
-            .catch(res.json({error: "not done"}))
+            .catch(e => next(boom.badImplementation(e)));
     }
 }
 const createProduct = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant create'});
             }else{
                 const {body} = req;
                 productServices.createProduct(body)
                     .then(response => res.json({id: response}))
-                    .catch(res.json({error: "not Created"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
     }
@@ -40,12 +41,13 @@ const updateProductById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant update'});
             }else{
                 const {body} = req;
                 const {id}   = req.params;
                 productServices.updateProductById(id, body) // (!)
                     .then(response => res.json({id: response}))
-                    .catch(res.json({error: "not Updated"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
     }
@@ -54,11 +56,12 @@ const deleteProductById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
+                res.json({error: 'cant delete'});
             }else{
                 const {id} = req.params
                 productServices.deleteProductById(id)
                     .then(response => res.json({message : 'product deleted'}))
-                    .catch(res.json({error: "not deleted"}))
+                    .catch(e => next(boom.badImplementation(e)));
             }
         });
         }
