@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
         })
     }else{
         let e = boom.unauthorized('Unauthorized');
-            next(e.output.payload);
+        next(e.output.payload);
     }
 }
 
