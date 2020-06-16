@@ -1,5 +1,7 @@
 // packages
 const jwt                       = require('jsonwebtoken');
+const boom                      = require('@hapi/boom');
+
 // imports & consts
 const UserServices              = require('./services');
 const {config:{authJwtSecret}}  = require('../../config');
@@ -47,7 +49,7 @@ const updateUserById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
-                res.json({error: 'cant update'});
+                next(boom.badImplementation(err))
             }else{
                 const {body} = req;
                 const {id}   = req.params;
@@ -62,7 +64,7 @@ const deleteUserById = () => {
     return (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (err, auth) => {
             if(err){
-                res.json({error: 'cant delete'});
+                next(boom.badImplementation(err))
             }else{
                 const {id} = req.params
                 userServices.deleteUserById(id)
