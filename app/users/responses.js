@@ -1,10 +1,8 @@
 // packages
-const jwt                       = require('jsonwebtoken');
 const boom                      = require('@hapi/boom');
 
 // imports & consts
 const UserServices              = require('./services');
-const {config:{authJwtSecret}}  = require('../../config');
 const userServices              = new UserServices();
 
 const searchUsers = () => {
@@ -17,7 +15,11 @@ const searchUsers = () => {
                 }
                 res.json({users: responses});
             })
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 const searchUserById = () => {
@@ -28,50 +30,48 @@ const searchUserById = () => {
                 delete response.user.dataValues.userPassword;
                 res.json({user:response})
             })
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 const createUser = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                res.json({error: 'cant create'});
-            }else{
-                const {body} = req;
-                userServices.createUser(body)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {body} = req;
+        userServices.createUser(body)
+            .then(response => res.json({id: response}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 const updateUserById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {body} = req;
-                const {id}   = req.params;
-                userServices.updateUserById(id, body) // (!)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {body} = req;
+        const {id}   = req.params;
+        userServices.updateUserById(id, body) // (!)
+            .then(response => res.json({id: response}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 const deleteUserById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {id} = req.params
-                userServices.deleteUserById(id)
-                    .then(response => res.json({message : 'user deleted'}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {id} = req.params
+        userServices.deleteUserById(id)
+            .then(response => res.json({message : 'user deleted'}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 module.exports = {

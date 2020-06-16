@@ -25,7 +25,7 @@ class UserServices{
                 .catch(e => reject(e));
                 
             })
-            .catch(e => console.log(e));
+            .catch(e => reject(e));
         });
     }
     updateUserById(id, body){
@@ -34,7 +34,7 @@ class UserServices{
                 where: {id: id}
             })
             .then(r => {
-                if(r == 1) resolve({"MODIFY DATA": true})
+                if(r == 1) resolve(id)
                 else reject({"MODIFY DATA:": false})
             })
             .catch(e => reject(e));
@@ -46,7 +46,7 @@ class UserServices{
                 where: {id}
             })
             .then(r => {
-                if(r == 1) resolve({"DELETE DATA": true})
+                if(r == 1) resolve("deleted");
                 else reject({"DELETE DATA:": false})
             })
             .catch(e => reject(e));

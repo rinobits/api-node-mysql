@@ -1,16 +1,19 @@
 // package
-const jwt                       = require('jsonwebtoken');
 const boom                      = require('@hapi/boom');
+
 // imports
-const {config:{authJwtSecret}}  = require('../../config');
 const ProductServices           = require('./services');
 const productServices           = new ProductServices();
+
 
 const searchProducts = () => {
     return (req, res, next) => {
         productServices.findProducts()
             .then(responses => res.json({products: responses}))
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                res.json(e.output.payload);
+            })
         }
 }
 const searchProductById = () => {
@@ -21,51 +24,49 @@ const searchProductById = () => {
                 delete response.productPassword;
                 res.json({product: response})
             })
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                
+                res.json(e.output.payload);
+            })
     }
 }
 const createProduct = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {body} = req;
-                productServices.createProduct(body)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {body} = req;
+        productServices.createProduct(body)
+            .then(response => res.json({id: response}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 const updateProductById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {body} = req;
-                const {id}   = req.params;
-                productServices.updateProductById(id, body) // (!)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {body} = req;
+        const {id}   = req.params;
+        productServices.updateProductById(id, body) // (!)
+            .then(response => res.json({id: response}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
+        }
     }
-}
 const deleteProductById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {id} = req.params
-                productServices.deleteProductById(id)
-                    .then(response => res.json({message : 'product deleted'}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
-        }
+        const {id} = req.params
+        productServices.deleteProductById(id)
+            .then(response => res.json({message : 'product deleted'}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
+    }
 }
 module.exports = {
     searchProducts,

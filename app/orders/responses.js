@@ -1,16 +1,20 @@
 // package
-const jwt                       = require('jsonwebtoken');
 const boom                      = require('@hapi/boom');
+
 // imports & consts 
-const {config:{authJwtSecret}}  = require('../../config');
 const OrderServices = require('./services');
 const orderServices = new OrderServices();
-//.catch(e => next(boom.badImplementation(e)));
+
+
 const searchOrders = () => {
     return (req, res, next) => {
         orderServices.findOrders()
             .then(responses => res.json({orders: responses}))
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
         }
 }
 const searchOrderById = () => {
@@ -21,50 +25,48 @@ const searchOrderById = () => {
                 delete response.orderPassword;
                 res.json({order: response})
             })
-            .catch(e => next(boom.badImplementation(e)));
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
         }
 }
 const createOrder = () => {
        return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {body} = req;
-                orderServices.createOrder(body)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
-        }
+            const {body} = req;
+            orderServices.createOrder(body)
+                .then(response => res.json({id: response}))
+                .catch(e => {
+                    e = boom.badRequest(e);
+                    e.output.payload.message = "Bad Request";
+                    res.json(e.output.payload);
+                })
+    }
 }
 const updateOrderById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {body} = req;
-                const {id}   = req.params;
-                orderServices.updateOrderById(id, body) // (!)
-                    .then(response => res.json({id: response}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
-        }
+        const {body} = req;
+        const {id}   = req.params;
+        orderServices.updateOrderById(id, body) // (!)
+            .then(response => res.json({id: response}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
+    }
 }
 const deleteOrderById = () => {
     return (req, res, next) => {
-        jwt.verify(req.token, authJwtSecret, (err, auth) => {
-            if(err){
-                next(boom.badImplementation(err))
-            }else{
-                const {id} = req.params
-                orderServices.deleteOrderById(id)
-                    .then(response => res.json({message : 'order deleted'}))
-                    .catch(e => next(boom.badImplementation(e)));
-            }
-        });
+        const {id} = req.params
+        orderServices.deleteOrderById(id)
+            .then(response => res.json({message : 'order deleted'}))
+            .catch(e => {
+                e = boom.badRequest(e);
+                e.output.payload.message = "Bad Request";
+                res.json(e.output.payload);
+            })
     }
 }
 module.exports = {

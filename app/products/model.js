@@ -21,10 +21,10 @@ module.exports = (sequelize, type) => {
         hasOffer: {
             type: type.INTEGER,
             allowNull: true
-        },
-        category: {
-            type: type.STRING,
-            allowNull: false
         }
     })
 }
+
+
+
+
