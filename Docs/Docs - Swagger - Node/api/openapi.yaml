@@ -1,0 +1,1405 @@
+openapi: 3.0.0
+info:
+  title: Generación de órdenes.
+  description: Api para generación de órdenes.
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: auth
+  description: Acceso de usuario
+- name: users
+  description: Operaciones con usuarios
+- name: orders
+  description: Operaciones con usuarios
+- name: products
+  description: Operaciones con productos
+paths:
+  /auth:
+    post:
+      tags:
+      - auth
+      summary: Autenticación
+      description: Obtención de privilegios
+      operationId: authenticate
+      requestBody:
+        description: Usuario input
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+      responses:
+        "200":
+          description: Autenticación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenResponse'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Auth
+  /users/{id}:
+    get:
+      tags:
+      - users
+      summary: Buscar usuario por su id.
+      description: No se requieren privilegos.
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Usuario obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUser'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+      x-swagger-router-controller: Users
+  /users:
+    get:
+      tags:
+      - users
+      summary: Listar usuarios
+      description: No se requieren privilegos.
+      operationId: getUsers
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUsers'
+      x-swagger-router-controller: Users
+    put:
+      tags:
+      - users
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editUser
+      responses:
+        "200":
+          description: Usuario editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Users
+    post:
+      tags:
+      - users
+      summary: Crear usuario
+      description: Se requieren privilegios.
+      operationId: createUser
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Users
+    delete:
+      tags:
+      - users
+      summary: Eliminar usuario
+      description: Se requieren privilegios.
+      operationId: deleteUser
+      responses:
+        "200":
+          description: Usuario eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Users
+  /orders/{id}:
+    get:
+      tags:
+      - orders
+      summary: Buscar una orden por su id.
+      description: No se requieren privilegos.
+      operationId: getOrderById
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Orden obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOrder'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+      x-swagger-router-controller: Orders
+  /orders:
+    get:
+      tags:
+      - orders
+      summary: Listar órdenes
+      description: No se requieren privilegos.
+      operationId: getOrders
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOrders'
+      x-swagger-router-controller: Orders
+    put:
+      tags:
+      - orders
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editOrder
+      responses:
+        "200":
+          description: Orden editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orderBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Orders
+    post:
+      tags:
+      - orders
+      summary: Crear orden
+      description: Se requieren privilegios.
+      operationId: createOrder
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orderBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Orders
+    delete:
+      tags:
+      - orders
+      summary: Eliminar orden
+      description: Se requieren privilegios
+      operationId: deleteOrder
+      responses:
+        "200":
+          description: Orden eliminada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Orders
+  /products/{id}:
+    get:
+      tags:
+      - products
+      summary: Buscar un producto por su id.
+      description: No se requieren privilegos.
+      operationId: getProductById
+      parameters:
+      - name: id
+        in: path
+        description: Product ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Producto obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProduct'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+      x-swagger-router-controller: Products
+  /products:
+    get:
+      tags:
+      - products
+      summary: Listar productos
+      description: No se requieren privilegos.
+      operationId: getProducts
+      responses:
+        "200":
+          description: Productos obtenidos exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProducts'
+      x-swagger-router-controller: Products
+    put:
+      tags:
+      - products
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editProduct
+      responses:
+        "200":
+          description: Producto editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Products
+    post:
+      tags:
+      - products
+      summary: Crear producto
+      description: Se requieren privilegios.
+      operationId: createProduct
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Products
+    delete:
+      tags:
+      - products
+      summary: Eliminar producto
+      description: Se requieren privilegios
+      operationId: deleteUser
+      responses:
+        "200":
+          description: Producto eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+      x-swagger-router-controller: Products
+components:
+  schemas:
+    tokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
+    notAuth:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: Unauthorized
+    users:
+      required:
+      - userName
+      - userPassword
+      type: object
+      properties:
+        userName:
+          maxLength: 30
+          minLength: 3
+          type: string
+        userPassword:
+          maxLength: 32
+          minLength: 8
+          type: string
+    getUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userName:
+          type: string
+          example: Arath
+        createdAt:
+          type: string
+          example: 2020-06-15T21:33:42.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T21:33:42.000Z
+      example:
+        createdAt: 2020-06-15T21:33:42.000Z
+        id: 1
+        userName: Arath
+        updatedAt: 2020-06-15T21:33:42.000Z
+    getUsers:
+      type: object
+      properties:
+        users:
+          $ref: '#/components/schemas/getUsers_users'
+      example:
+        users:
+          "0":
+            createdAt: 2020-06-15T22:04:30.000Z
+            id: 0
+            userName: Arath
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "1":
+            createdAt: 2020-06-15T22:04:30.000Z
+            id: 1
+            userName: Sisifo
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "2":
+            createdAt: 2020-06-15T22:04:30.000Z
+            id: 2
+            userName: Serafin
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "3":
+            createdAt: 2020-06-15T22:04:30.000Z
+            id: 3
+            userName: Lilo
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "4":
+            createdAt: 2020-06-15T22:04:30.000Z
+            id: 4
+            userName: Deasy
+            updatedAt: 2020-06-15T22:04:30.000Z
+    userBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"userPassword" with value "Tklj%" fails to match the required
+            pattern: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,32})/'
+    orders:
+      required:
+      - email
+      - name
+      - phone
+      type: object
+      properties:
+        name:
+          maxLength: 15
+          minLength: 2
+          type: string
+        phone:
+          maxLength: 15
+          minLength: 8
+          type: string
+        email:
+          type: string
+          format: email
+        description:
+          type: string
+        message:
+          type: string
+        value:
+          maximum: 1000000
+          minimum: 1
+          type: integer
+        deposit:
+          maximum: 999999
+          minimum: 1
+          type: integer
+    getOrder:
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Juan Carlos
+        phone:
+          type: string
+          example: 9 3231 4311
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: Entregar a la brevedad
+        value:
+          type: integer
+          example: 320000
+        deposit:
+          type: integer
+          example: 170000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        phone: 9 3231 4311
+        name: Juan Carlos
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 170000
+        id: 5
+        message: Entregar a la brevedad
+        value: 320000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getOrders:
+      type: object
+      properties:
+        orders:
+          $ref: '#/components/schemas/getOrders_orders'
+      example:
+        orders:
+          "0":
+            createdAt: 2020-06-15T22:04:30.000Z
+            phone: 9332 4343
+            name: Arath
+            description: Los productos adjuntos van a El litre 2390, Valparaíso
+            deposit: 70000
+            id: 0
+            message: No aplica
+            value: 120000
+            email: jc.webservicdes@agilesolutions.com
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "1":
+            createdAt: 2020-06-15T22:04:30.000Z
+            phone: 9332 4343
+            name: Arath
+            description: Los productos adjuntos van a El litre 2390, Valparaíso
+            deposit: 70000
+            id: 1
+            message: No aplica
+            value: 120000
+            email: jc.webservicdes@agilesolutions.com
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "2":
+            createdAt: 2020-06-15T22:04:30.000Z
+            phone: 9332 4343
+            name: Arath
+            description: Los productos adjuntos van a El litre 2390, Valparaíso
+            deposit: 70000
+            id: 2
+            message: No aplica
+            value: 120000
+            email: jc.webservicdes@agilesolutions.com
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "3":
+            createdAt: 2020-06-15T22:04:30.000Z
+            phone: 9332 4343
+            name: Arath
+            description: Los productos adjuntos van a El litre 2390, Valparaíso
+            deposit: 70000
+            id: 3
+            message: No aplica
+            value: 120000
+            email: jc.webservicdes@agilesolutions.com
+            updatedAt: 2020-06-15T22:04:30.000Z
+          "4":
+            createdAt: 2020-06-15T22:04:30.000Z
+            phone: 9332 4343
+            name: Arath
+            description: Los productos adjuntos van a El litre 2390, Valparaíso
+            deposit: 70000
+            id: 4
+            message: No aplica
+            value: 120000
+            email: jc.webservicdes@agilesolutions.com
+            updatedAt: 2020-06-15T22:04:30.000Z
+    orderBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"phne" is not allowed'
+    products:
+      required:
+      - category
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          maxLength: 15
+          minLength: 2
+          type: string
+        category:
+          maxLength: 20
+          minLength: 3
+          type: string
+        value:
+          maximum: 1000000
+          minimum: 1
+          type: integer
+        hasOffer:
+          maximum: 999999
+          minimum: 1
+          type: integer
+    getProduct:
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Nescafé 100gr
+        category:
+          type: string
+          example: 9 3231 4311
+        value:
+          type: integer
+          example: 320000
+        hasOffer:
+          type: integer
+          example: 30000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        name: Nescafé 100gr
+        id: 5
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProducts:
+      type: object
+      properties:
+        products:
+          $ref: '#/components/schemas/getProducts_products'
+      example:
+        products:
+          "0":
+            createdAt: 2020-06-16T20:05:48.000Z
+            name: Nescafé 150gr
+            id: 5
+            category: 9 3231 4311
+            value: 320000
+            hasOffer: 30000
+            updatedAt: 2020-06-16T23:05:14.000Z
+          "1":
+            createdAt: 2020-06-16T20:05:48.000Z
+            name: Nescafé 100gr
+            id: 5
+            category: 9 3231 4311
+            value: 320000
+            hasOffer: 30000
+            updatedAt: 2020-06-16T23:05:14.000Z
+          "2":
+            createdAt: 2020-06-16T20:05:48.000Z
+            name: Leche entera 1000cc
+            id: 5
+            category: 9 3231 4311
+            value: 320000
+            hasOffer: 30000
+            updatedAt: 2020-06-16T23:05:14.000Z
+          "3":
+            createdAt: 2020-06-16T20:05:48.000Z
+            name: Pan xl
+            id: 5
+            category: 9 3231 4311
+            value: 320000
+            hasOffer: 30000
+            updatedAt: 2020-06-16T23:05:14.000Z
+    productBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"naaame" is not allowed'
+    badRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Bad Request
+    modifyTrue:
+      type: object
+      properties:
+        MODIFY DATA:
+          type: boolean
+          example: true
+      example:
+        MODIFY DATA: true
+    createTrue:
+      type: object
+      properties:
+        CREATED:
+          type: boolean
+          example: true
+      example:
+        CREATED: true
+    deleteTrue:
+      type: object
+      properties:
+        DELETE DATA:
+          type: boolean
+          example: true
+      example:
+        DELETE DATA: true
+    getUsers_users_0:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 0
+        userName:
+          type: string
+          example: Arath
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        id: 0
+        userName: Arath
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getUsers_users_1:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userName:
+          type: string
+          example: Sisifo
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        id: 1
+        userName: Sisifo
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getUsers_users_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        userName:
+          type: string
+          example: Serafin
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        id: 2
+        userName: Serafin
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getUsers_users_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        userName:
+          type: string
+          example: Lilo
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        id: 3
+        userName: Lilo
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getUsers_users_4:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        userName:
+          type: string
+          example: Deasy
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        id: 4
+        userName: Deasy
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getUsers_users:
+      type: object
+      properties:
+        "0":
+          $ref: '#/components/schemas/getUsers_users_0'
+        "1":
+          $ref: '#/components/schemas/getUsers_users_1'
+        "2":
+          $ref: '#/components/schemas/getUsers_users_2'
+        "3":
+          $ref: '#/components/schemas/getUsers_users_3'
+        "4":
+          $ref: '#/components/schemas/getUsers_users_4'
+      example:
+        "0":
+          createdAt: 2020-06-15T22:04:30.000Z
+          id: 0
+          userName: Arath
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "1":
+          createdAt: 2020-06-15T22:04:30.000Z
+          id: 1
+          userName: Sisifo
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "2":
+          createdAt: 2020-06-15T22:04:30.000Z
+          id: 2
+          userName: Serafin
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "3":
+          createdAt: 2020-06-15T22:04:30.000Z
+          id: 3
+          userName: Lilo
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "4":
+          createdAt: 2020-06-15T22:04:30.000Z
+          id: 4
+          userName: Deasy
+          updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders_0:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 0
+        name:
+          type: string
+          example: Arath
+        phone:
+          type: string
+          example: 9332 4343
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: No aplica
+        value:
+          type: integer
+          example: 120000
+        deposit:
+          type: integer
+          example: 70000
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        phone: 9332 4343
+        name: Arath
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 70000
+        id: 0
+        message: No aplica
+        value: 120000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders_1:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Arath
+        phone:
+          type: string
+          example: 9332 4343
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: No aplica
+        value:
+          type: integer
+          example: 120000
+        deposit:
+          type: integer
+          example: 70000
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        phone: 9332 4343
+        name: Arath
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 70000
+        id: 1
+        message: No aplica
+        value: 120000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: Arath
+        phone:
+          type: string
+          example: 9332 4343
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: No aplica
+        value:
+          type: integer
+          example: 120000
+        deposit:
+          type: integer
+          example: 70000
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        phone: 9332 4343
+        name: Arath
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 70000
+        id: 2
+        message: No aplica
+        value: 120000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: Arath
+        phone:
+          type: string
+          example: 9332 4343
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: No aplica
+        value:
+          type: integer
+          example: 120000
+        deposit:
+          type: integer
+          example: 70000
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        phone: 9332 4343
+        name: Arath
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 70000
+        id: 3
+        message: No aplica
+        value: 120000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders_4:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        name:
+          type: string
+          example: Arath
+        phone:
+          type: string
+          example: 9332 4343
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        description:
+          type: string
+          example: Los productos adjuntos van a El litre 2390, Valparaíso
+        message:
+          type: string
+          example: No aplica
+        value:
+          type: integer
+          example: 120000
+        deposit:
+          type: integer
+          example: 70000
+        createdAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T22:04:30.000Z
+      example:
+        createdAt: 2020-06-15T22:04:30.000Z
+        phone: 9332 4343
+        name: Arath
+        description: Los productos adjuntos van a El litre 2390, Valparaíso
+        deposit: 70000
+        id: 4
+        message: No aplica
+        value: 120000
+        email: jc.webservicdes@agilesolutions.com
+        updatedAt: 2020-06-15T22:04:30.000Z
+    getOrders_orders:
+      type: object
+      properties:
+        "0":
+          $ref: '#/components/schemas/getOrders_orders_0'
+        "1":
+          $ref: '#/components/schemas/getOrders_orders_1'
+        "2":
+          $ref: '#/components/schemas/getOrders_orders_2'
+        "3":
+          $ref: '#/components/schemas/getOrders_orders_3'
+        "4":
+          $ref: '#/components/schemas/getOrders_orders_4'
+      example:
+        "0":
+          createdAt: 2020-06-15T22:04:30.000Z
+          phone: 9332 4343
+          name: Arath
+          description: Los productos adjuntos van a El litre 2390, Valparaíso
+          deposit: 70000
+          id: 0
+          message: No aplica
+          value: 120000
+          email: jc.webservicdes@agilesolutions.com
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "1":
+          createdAt: 2020-06-15T22:04:30.000Z
+          phone: 9332 4343
+          name: Arath
+          description: Los productos adjuntos van a El litre 2390, Valparaíso
+          deposit: 70000
+          id: 1
+          message: No aplica
+          value: 120000
+          email: jc.webservicdes@agilesolutions.com
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "2":
+          createdAt: 2020-06-15T22:04:30.000Z
+          phone: 9332 4343
+          name: Arath
+          description: Los productos adjuntos van a El litre 2390, Valparaíso
+          deposit: 70000
+          id: 2
+          message: No aplica
+          value: 120000
+          email: jc.webservicdes@agilesolutions.com
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "3":
+          createdAt: 2020-06-15T22:04:30.000Z
+          phone: 9332 4343
+          name: Arath
+          description: Los productos adjuntos van a El litre 2390, Valparaíso
+          deposit: 70000
+          id: 3
+          message: No aplica
+          value: 120000
+          email: jc.webservicdes@agilesolutions.com
+          updatedAt: 2020-06-15T22:04:30.000Z
+        "4":
+          createdAt: 2020-06-15T22:04:30.000Z
+          phone: 9332 4343
+          name: Arath
+          description: Los productos adjuntos van a El litre 2390, Valparaíso
+          deposit: 70000
+          id: 4
+          message: No aplica
+          value: 120000
+          email: jc.webservicdes@agilesolutions.com
+          updatedAt: 2020-06-15T22:04:30.000Z
+    getProducts_products_0:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Nescafé 150gr
+        category:
+          type: string
+          example: 9 3231 4311
+        value:
+          type: integer
+          example: 320000
+        hasOffer:
+          type: integer
+          example: 30000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        name: Nescafé 150gr
+        id: 5
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProducts_products_1:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Nescafé 100gr
+        category:
+          type: string
+          example: 9 3231 4311
+        value:
+          type: integer
+          example: 320000
+        hasOffer:
+          type: integer
+          example: 30000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        name: Nescafé 100gr
+        id: 5
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProducts_products_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Leche entera 1000cc
+        category:
+          type: string
+          example: 9 3231 4311
+        value:
+          type: integer
+          example: 320000
+        hasOffer:
+          type: integer
+          example: 30000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        name: Leche entera 1000cc
+        id: 5
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProducts_products_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Pan xl
+        category:
+          type: string
+          example: 9 3231 4311
+        value:
+          type: integer
+          example: 320000
+        hasOffer:
+          type: integer
+          example: 30000
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        name: Pan xl
+        id: 5
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProducts_products:
+      type: object
+      properties:
+        "0":
+          $ref: '#/components/schemas/getProducts_products_0'
+        "1":
+          $ref: '#/components/schemas/getProducts_products_1'
+        "2":
+          $ref: '#/components/schemas/getProducts_products_2'
+        "3":
+          $ref: '#/components/schemas/getProducts_products_3'
+      example:
+        "0":
+          createdAt: 2020-06-16T20:05:48.000Z
+          name: Nescafé 150gr
+          id: 5
+          category: 9 3231 4311
+          value: 320000
+          hasOffer: 30000
+          updatedAt: 2020-06-16T23:05:14.000Z
+        "1":
+          createdAt: 2020-06-16T20:05:48.000Z
+          name: Nescafé 100gr
+          id: 5
+          category: 9 3231 4311
+          value: 320000
+          hasOffer: 30000
+          updatedAt: 2020-06-16T23:05:14.000Z
+        "2":
+          createdAt: 2020-06-16T20:05:48.000Z
+          name: Leche entera 1000cc
+          id: 5
+          category: 9 3231 4311
+          value: 320000
+          hasOffer: 30000
+          updatedAt: 2020-06-16T23:05:14.000Z
+        "3":
+          createdAt: 2020-06-16T20:05:48.000Z
+          name: Pan xl
+          id: 5
+          category: 9 3231 4311
+          value: 320000
+          hasOffer: 30000
+          updatedAt: 2020-06-16T23:05:14.000Z

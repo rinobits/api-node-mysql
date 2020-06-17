@@ -1,11 +1,11 @@
 const Joi = require('@hapi/joi');
 
-const name      = Joi.string().min(2).max(15);
-const phone    = Joi.string().min(8).max(15);
-const email       = Joi.string().email();
-const description = Joi.string().allow("");
-const message     = Joi.string().allow("");
-const value       = Joi.number().min(1).max(1000000).allow("");
+const name          = Joi.string().min(2).max(15);
+const phone         = Joi.string().min(8).max(15);
+const email         = Joi.string().email();
+const description   = Joi.string().allow("");
+const message       = Joi.string().allow("");
+const value         = Joi.number().min(1).max(1000000).allow("");
 const deposit       = Joi.number().min(1).max(999999).allow("");
 
 const orderSchemaCreate = Joi.object({

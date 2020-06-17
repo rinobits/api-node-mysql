@@ -7,8 +7,7 @@ module.exports = (sequelize, type) => {
         },
         name: {
             type: type.STRING,
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
         phone: {
             type: type.STRING,
@@ -22,16 +21,16 @@ module.exports = (sequelize, type) => {
             type: type.TEXT,
             allowNull: false,
         },
+        message: {
+            type: type.TEXT,
+            allowNull: false
+        },
         value: {
             type: type.INTEGER,
             allowNull: false,
         },
         deposit: {
             type: type.INTEGER,
-            allowNull: false
-        },
-        message: {
-            type: type.TEXT,
             allowNull: false
         }
     })

@@ -11,7 +11,17 @@ const setValues = (values, data, req, next) => {
 const validatorHandler = (schema, data = 'body') => {
     return (req, res, next) => {
         const response = validate(req[data], schema);
-        response.error?next(boom.badRequest(response.error)):setValues(response.value, data, req, next);
+        if(response.error){
+            //console.log(response.error);
+            response.error = boom.badRequest(response.error);
+            response.error = response.error.output.payload;
+            res.json(response.error)
+        }
+        else{
+            setValues(response.value, data, req, next);
+        }
     }
 }
 module.exports = validatorHandler;
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkyNDA0NDY4LCJleHAiOjE1OTI0MDgwNjh9.syFGjh1VxmMHJ_T3-Al7tgU7bXqPFdvrOhg-NUWPC4A

@@ -15,6 +15,7 @@ module.exports = (req, res, next) => {
             if(e){
                 e = boom.unauthorized(e);
                 e = e.output.payload;
+                e.message = "Unauthorized";
                 res.json(e);
             }else{
                 next();

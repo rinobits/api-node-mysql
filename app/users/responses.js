@@ -13,7 +13,8 @@ const searchUsers = () => {
                 for(i = 0; i < responses.users.length; i++){
                     delete responses.users[i].dataValues.userPassword;
                 }
-                res.json({users: responses});
+                responses = {...responses.users};
+                res.json(responses);
             })
             .catch(e => {
                 e = boom.badRequest(e);
@@ -28,7 +29,7 @@ const searchUserById = () => {
         userServices.findUserById(id)
             .then(response => {
                 delete response.user.dataValues.userPassword;
-                res.json({user:response})
+                res.json(response.user.dataValues)
             })
             .catch(e => {
                 e = boom.badRequest(e);
@@ -41,7 +42,7 @@ const createUser = () => {
     return (req, res, next) => {
         const {body} = req;
         userServices.createUser(body)
-            .then(response => res.json({id: response}))
+            .then(response => res.json({"CREATED": true}))
             .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";
@@ -54,7 +55,7 @@ const updateUserById = () => {
         const {body} = req;
         const {id}   = req.params;
         userServices.updateUserById(id, body) // (!)
-            .then(response => res.json({id: response}))
+        .then(response => res.json({"MODIFY DATA": true}))
             .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";
@@ -66,7 +67,7 @@ const deleteUserById = () => {
     return (req, res, next) => {
         const {id} = req.params
         userServices.deleteUserById(id)
-            .then(response => res.json({message : 'user deleted'}))
+            .then(response => res.json({'DELETE DATA' : true}))
             .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";

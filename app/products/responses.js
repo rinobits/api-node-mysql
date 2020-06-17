@@ -9,8 +9,16 @@ const productServices           = new ProductServices();
 const searchProducts = () => {
     return (req, res, next) => {
         productServices.findProducts()
-            .then(responses => res.json({products: responses}))
-            .catch(e => {
+        .then(responses => {
+            let i = 0;
+            let tmp = []
+            for(i = 0; i < responses.length; i++){
+                tmp[i] = responses[i].dataValues;
+            }
+            responses = tmp;
+            res.json({...responses})
+        })
+        .catch(e => {
                 e = boom.badRequest(e);
                 res.json(e.output.payload);
             })
@@ -22,7 +30,7 @@ const searchProductById = () => {
         productServices.findProductById(id)
             .then(response => {
                 delete response.productPassword;
-                res.json({product: response})
+                res.json(response)
             })
             .catch(e => {
                 e = boom.badRequest(e);
@@ -35,7 +43,7 @@ const createProduct = () => {
     return (req, res, next) => {
         const {body} = req;
         productServices.createProduct(body)
-            .then(response => res.json({id: response}))
+        .then(response => res.json({"CREATED": true}))
             .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";
@@ -47,8 +55,8 @@ const updateProductById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        productServices.updateProductById(id, body) // (!)
-            .then(response => res.json({id: response}))
+        productServices.updateProductById(id, body) 
+            .then(response => res.json({"MODIFY DATA": true}))
             .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";
@@ -60,8 +68,7 @@ const deleteProductById = () => {
     return (req, res, next) => {
         const {id} = req.params
         productServices.deleteProductById(id)
-            .then(response => res.json({message : 'product deleted'}))
-            .catch(e => {
+        .then(response => res.json({'DELETE DATA' : true}))            .catch(e => {
                 e = boom.badRequest(e);
                 e.output.payload.message = "Bad Request";
                 res.json(e.output.payload);

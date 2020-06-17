@@ -34,7 +34,7 @@ class UserServices{
                 where: {id: id}
             })
             .then(r => {
-                if(r == 1) resolve(id)
+                if(r == 1) resolve({"MODIFY DATA:": true})
                 else reject({"MODIFY DATA:": false})
             })
             .catch(e => reject(e));
@@ -46,7 +46,7 @@ class UserServices{
                 where: {id}
             })
             .then(r => {
-                if(r == 1) resolve("deleted");
+                if(r == 1) resolve({"DELETE DATA:": true});
                 else reject({"DELETE DATA:": false})
             })
             .catch(e => reject(e));
