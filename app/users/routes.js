@@ -8,9 +8,9 @@ const validatorHandler                                 = require('../../utils/mi
 const verifyToken                                      = require('../../utils/middlewares/verifyToken');
 // developer
 router.get('/', control.searchUsers());
-router.get('/:id', control.searchUserById());
+router.get('/:id', validatorHandler(idSchema, 'params'), control.searchUserById());
 // admin
 router.post('/', verifyToken, validatorHandler(userSchemaCreate , 'body'), control.createUser());
-router.put('/:id', verifyToken, validatorHandler(userSchemaUpdate, 'body'), control.updateUserById());
-router.delete('/:id',  verifyToken, control.deleteUserById());
+router.put('/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(userSchemaUpdate, 'body'), control.updateUserById());
+router.delete('/:id', validatorHandler(idSchema, 'params'),  verifyToken, control.deleteUserById());
 module.exports = router;

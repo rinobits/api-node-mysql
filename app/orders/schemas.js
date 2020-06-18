@@ -7,7 +7,7 @@ const description   = Joi.string().allow("");
 const message       = Joi.string().allow("");
 const value         = Joi.number().min(1).max(1000000).allow("");
 const deposit       = Joi.number().min(1).max(999999).allow("");
-const id               = Joi.number().min(0);
+const id            = Joi.number().min(0);
 
 const idSchema         = Joi.object({
     id: id.required()

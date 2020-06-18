@@ -6,6 +6,9 @@ const userName         = Joi.string().min(3).max(30);
 const userPassword     = Joi.string().regex(pattern).min(8).max(32);
 const id               = Joi.number().min(0);
 
+const idSchema         = Joi.object({
+    id: id.required()
+})
 const userSchemaCreate = Joi.object({
     userName: userName.required(),
     userPassword: userPassword.required()
@@ -16,9 +19,6 @@ const userSchemaUpdate = Joi.object({
     userPassword
 });
 
-const idSchema         = Joi.object({
-    id: id
-})
 module.exports = {
     userSchemaCreate,
     userSchemaUpdate,
