@@ -101,40 +101,27 @@ exports.getUserById = function(id) {
 exports.getUsers = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "users" : {
-    "0" : {
-      "createdAt" : "2020-06-15T22:04:30.000Z",
-      "id" : 0,
-      "userName" : "Arath",
-      "updatedAt" : "2020-06-15T22:04:30.000Z"
-    },
-    "1" : {
-      "createdAt" : "2020-06-15T22:04:30.000Z",
-      "id" : 1,
-      "userName" : "Sisifo",
-      "updatedAt" : "2020-06-15T22:04:30.000Z"
-    },
-    "2" : {
-      "createdAt" : "2020-06-15T22:04:30.000Z",
-      "id" : 2,
-      "userName" : "Serafin",
-      "updatedAt" : "2020-06-15T22:04:30.000Z"
-    },
-    "3" : {
-      "createdAt" : "2020-06-15T22:04:30.000Z",
-      "id" : 3,
-      "userName" : "Lilo",
-      "updatedAt" : "2020-06-15T22:04:30.000Z"
-    },
-    "4" : {
-      "createdAt" : "2020-06-15T22:04:30.000Z",
-      "id" : 4,
-      "userName" : "Deasy",
-      "updatedAt" : "2020-06-15T22:04:30.000Z"
-    }
-  }
-};
+    examples['application/json'] = [ {
+  "id" : 0,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 3,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 17,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 21,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+} ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

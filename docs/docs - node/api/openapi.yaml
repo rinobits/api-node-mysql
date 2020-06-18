@@ -666,37 +666,26 @@ components:
         userName: Arath
         updatedAt: 2020-06-15T21:33:42.000Z
     getUsers:
-      type: object
-      properties:
-        users:
-          $ref: '#/components/schemas/getUsers_users'
+      type: array
       example:
-        users:
-          "0":
-            createdAt: 2020-06-15T22:04:30.000Z
-            id: 0
-            userName: Arath
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "1":
-            createdAt: 2020-06-15T22:04:30.000Z
-            id: 1
-            userName: Sisifo
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "2":
-            createdAt: 2020-06-15T22:04:30.000Z
-            id: 2
-            userName: Serafin
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "3":
-            createdAt: 2020-06-15T22:04:30.000Z
-            id: 3
-            userName: Lilo
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "4":
-            createdAt: 2020-06-15T22:04:30.000Z
-            id: 4
-            userName: Deasy
-            updatedAt: 2020-06-15T22:04:30.000Z
+      - id: 0
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 17
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 21
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getUsers_inner'
     userBadRequest:
       type: object
       properties:
@@ -784,67 +773,46 @@ components:
         email: jc.webservicdes@agilesolutions.com
         updatedAt: 2020-06-16T23:05:14.000Z
     getOrders:
-      type: object
-      properties:
-        orders:
-          $ref: '#/components/schemas/getOrders_orders'
+      type: array
       example:
-        orders:
-          "0":
-            createdAt: 2020-06-15T22:04:30.000Z
-            phone: 9332 4343
-            name: Arath
-            description: Los productos adjuntos van a El litre 2390, Valparaíso
-            deposit: 70000
-            id: 0
-            message: No aplica
-            value: 120000
-            email: jc.webservicdes@agilesolutions.com
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "1":
-            createdAt: 2020-06-15T22:04:30.000Z
-            phone: 9332 4343
-            name: Arath
-            description: Los productos adjuntos van a El litre 2390, Valparaíso
-            deposit: 70000
-            id: 1
-            message: No aplica
-            value: 120000
-            email: jc.webservicdes@agilesolutions.com
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "2":
-            createdAt: 2020-06-15T22:04:30.000Z
-            phone: 9332 4343
-            name: Arath
-            description: Los productos adjuntos van a El litre 2390, Valparaíso
-            deposit: 70000
-            id: 2
-            message: No aplica
-            value: 120000
-            email: jc.webservicdes@agilesolutions.com
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "3":
-            createdAt: 2020-06-15T22:04:30.000Z
-            phone: 9332 4343
-            name: Arath
-            description: Los productos adjuntos van a El litre 2390, Valparaíso
-            deposit: 70000
-            id: 3
-            message: No aplica
-            value: 120000
-            email: jc.webservicdes@agilesolutions.com
-            updatedAt: 2020-06-15T22:04:30.000Z
-          "4":
-            createdAt: 2020-06-15T22:04:30.000Z
-            phone: 9332 4343
-            name: Arath
-            description: Los productos adjuntos van a El litre 2390, Valparaíso
-            deposit: 70000
-            id: 4
-            message: No aplica
-            value: 120000
-            email: jc.webservicdes@agilesolutions.com
-            updatedAt: 2020-06-15T22:04:30.000Z
+      - id: 5
+        name: Nescafé 100gr
+        phone: 9 3231 4311
+        description: Some descriptiond
+        message: And a message
+        value: 320000
+        deposit: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Leche entera 1000cc
+        phone: 9 3231 4311
+        description: Some descriptiond
+        message: And a message
+        value: 320000
+        deposit: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Pan xl
+        phone: 9 3231 4311
+        description: Some descriptiond
+        message: And a message
+        value: 320000
+        deposit: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Pan xl
+        phone: 9 3231 4311
+        description: Some descriptiond
+        message: And a message
+        value: 320000
+        deposit: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getOrders_inner'
     orderBadRequest:
       type: object
       properties:
@@ -912,44 +880,38 @@ components:
         hasOffer: 30000
         updatedAt: 2020-06-16T23:05:14.000Z
     getProducts:
-      type: object
-      properties:
-        products:
-          $ref: '#/components/schemas/getProducts_products'
+      type: array
       example:
-        products:
-          "0":
-            createdAt: 2020-06-16T20:05:48.000Z
-            name: Nescafé 150gr
-            id: 5
-            category: 9 3231 4311
-            value: 320000
-            hasOffer: 30000
-            updatedAt: 2020-06-16T23:05:14.000Z
-          "1":
-            createdAt: 2020-06-16T20:05:48.000Z
-            name: Nescafé 100gr
-            id: 5
-            category: 9 3231 4311
-            value: 320000
-            hasOffer: 30000
-            updatedAt: 2020-06-16T23:05:14.000Z
-          "2":
-            createdAt: 2020-06-16T20:05:48.000Z
-            name: Leche entera 1000cc
-            id: 5
-            category: 9 3231 4311
-            value: 320000
-            hasOffer: 30000
-            updatedAt: 2020-06-16T23:05:14.000Z
-          "3":
-            createdAt: 2020-06-16T20:05:48.000Z
-            name: Pan xl
-            id: 5
-            category: 9 3231 4311
-            value: 320000
-            hasOffer: 30000
-            updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Nescafé 100gr
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Leche entera 1000cc
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Pan xl
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        name: Pan xl
+        category: 9 3231 4311
+        value: 320000
+        hasOffer: 30000
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getProducts_inner'
     productBadRequest:
       type: object
       properties:
@@ -998,603 +960,52 @@ components:
           example: true
       example:
         DELETE DATA: true
-    getUsers_users_0:
+    getUsers_inner:
       type: object
       properties:
         id:
           type: integer
-          example: 0
         userName:
           type: string
-          example: Arath
         createdAt:
           type: string
-          example: 2020-06-15T22:04:30.000Z
         updatedAt:
           type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        id: 0
-        userName: Arath
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getUsers_users_1:
+    getOrders_inner:
       type: object
       properties:
         id:
           type: integer
-          example: 1
-        userName:
-          type: string
-          example: Sisifo
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        id: 1
-        userName: Sisifo
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getUsers_users_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 2
-        userName:
-          type: string
-          example: Serafin
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        id: 2
-        userName: Serafin
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getUsers_users_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 3
-        userName:
-          type: string
-          example: Lilo
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        id: 3
-        userName: Lilo
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getUsers_users_4:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 4
-        userName:
-          type: string
-          example: Deasy
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        id: 4
-        userName: Deasy
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getUsers_users:
-      type: object
-      properties:
-        "0":
-          $ref: '#/components/schemas/getUsers_users_0'
-        "1":
-          $ref: '#/components/schemas/getUsers_users_1'
-        "2":
-          $ref: '#/components/schemas/getUsers_users_2'
-        "3":
-          $ref: '#/components/schemas/getUsers_users_3'
-        "4":
-          $ref: '#/components/schemas/getUsers_users_4'
-      example:
-        "0":
-          createdAt: 2020-06-15T22:04:30.000Z
-          id: 0
-          userName: Arath
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "1":
-          createdAt: 2020-06-15T22:04:30.000Z
-          id: 1
-          userName: Sisifo
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "2":
-          createdAt: 2020-06-15T22:04:30.000Z
-          id: 2
-          userName: Serafin
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "3":
-          createdAt: 2020-06-15T22:04:30.000Z
-          id: 3
-          userName: Lilo
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "4":
-          createdAt: 2020-06-15T22:04:30.000Z
-          id: 4
-          userName: Deasy
-          updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders_0:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 0
         name:
           type: string
-          example: Arath
         phone:
           type: string
-          example: 9332 4343
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
         description:
           type: string
-          example: Los productos adjuntos van a El litre 2390, Valparaíso
         message:
           type: string
-          example: No aplica
         value:
           type: integer
-          example: 120000
         deposit:
           type: integer
-          example: 70000
         createdAt:
           type: string
-          example: 2020-06-15T22:04:30.000Z
         updatedAt:
           type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        phone: 9332 4343
-        name: Arath
-        description: Los productos adjuntos van a El litre 2390, Valparaíso
-        deposit: 70000
-        id: 0
-        message: No aplica
-        value: 120000
-        email: jc.webservicdes@agilesolutions.com
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders_1:
+    getProducts_inner:
       type: object
       properties:
         id:
           type: integer
-          example: 1
         name:
           type: string
-          example: Arath
-        phone:
-          type: string
-          example: 9332 4343
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
-        description:
-          type: string
-          example: Los productos adjuntos van a El litre 2390, Valparaíso
-        message:
-          type: string
-          example: No aplica
-        value:
-          type: integer
-          example: 120000
-        deposit:
-          type: integer
-          example: 70000
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        phone: 9332 4343
-        name: Arath
-        description: Los productos adjuntos van a El litre 2390, Valparaíso
-        deposit: 70000
-        id: 1
-        message: No aplica
-        value: 120000
-        email: jc.webservicdes@agilesolutions.com
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 2
-        name:
-          type: string
-          example: Arath
-        phone:
-          type: string
-          example: 9332 4343
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
-        description:
-          type: string
-          example: Los productos adjuntos van a El litre 2390, Valparaíso
-        message:
-          type: string
-          example: No aplica
-        value:
-          type: integer
-          example: 120000
-        deposit:
-          type: integer
-          example: 70000
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        phone: 9332 4343
-        name: Arath
-        description: Los productos adjuntos van a El litre 2390, Valparaíso
-        deposit: 70000
-        id: 2
-        message: No aplica
-        value: 120000
-        email: jc.webservicdes@agilesolutions.com
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 3
-        name:
-          type: string
-          example: Arath
-        phone:
-          type: string
-          example: 9332 4343
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
-        description:
-          type: string
-          example: Los productos adjuntos van a El litre 2390, Valparaíso
-        message:
-          type: string
-          example: No aplica
-        value:
-          type: integer
-          example: 120000
-        deposit:
-          type: integer
-          example: 70000
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        phone: 9332 4343
-        name: Arath
-        description: Los productos adjuntos van a El litre 2390, Valparaíso
-        deposit: 70000
-        id: 3
-        message: No aplica
-        value: 120000
-        email: jc.webservicdes@agilesolutions.com
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders_4:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 4
-        name:
-          type: string
-          example: Arath
-        phone:
-          type: string
-          example: 9332 4343
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
-        description:
-          type: string
-          example: Los productos adjuntos van a El litre 2390, Valparaíso
-        message:
-          type: string
-          example: No aplica
-        value:
-          type: integer
-          example: 120000
-        deposit:
-          type: integer
-          example: 70000
-        createdAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-15T22:04:30.000Z
-      example:
-        createdAt: 2020-06-15T22:04:30.000Z
-        phone: 9332 4343
-        name: Arath
-        description: Los productos adjuntos van a El litre 2390, Valparaíso
-        deposit: 70000
-        id: 4
-        message: No aplica
-        value: 120000
-        email: jc.webservicdes@agilesolutions.com
-        updatedAt: 2020-06-15T22:04:30.000Z
-    getOrders_orders:
-      type: object
-      properties:
-        "0":
-          $ref: '#/components/schemas/getOrders_orders_0'
-        "1":
-          $ref: '#/components/schemas/getOrders_orders_1'
-        "2":
-          $ref: '#/components/schemas/getOrders_orders_2'
-        "3":
-          $ref: '#/components/schemas/getOrders_orders_3'
-        "4":
-          $ref: '#/components/schemas/getOrders_orders_4'
-      example:
-        "0":
-          createdAt: 2020-06-15T22:04:30.000Z
-          phone: 9332 4343
-          name: Arath
-          description: Los productos adjuntos van a El litre 2390, Valparaíso
-          deposit: 70000
-          id: 0
-          message: No aplica
-          value: 120000
-          email: jc.webservicdes@agilesolutions.com
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "1":
-          createdAt: 2020-06-15T22:04:30.000Z
-          phone: 9332 4343
-          name: Arath
-          description: Los productos adjuntos van a El litre 2390, Valparaíso
-          deposit: 70000
-          id: 1
-          message: No aplica
-          value: 120000
-          email: jc.webservicdes@agilesolutions.com
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "2":
-          createdAt: 2020-06-15T22:04:30.000Z
-          phone: 9332 4343
-          name: Arath
-          description: Los productos adjuntos van a El litre 2390, Valparaíso
-          deposit: 70000
-          id: 2
-          message: No aplica
-          value: 120000
-          email: jc.webservicdes@agilesolutions.com
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "3":
-          createdAt: 2020-06-15T22:04:30.000Z
-          phone: 9332 4343
-          name: Arath
-          description: Los productos adjuntos van a El litre 2390, Valparaíso
-          deposit: 70000
-          id: 3
-          message: No aplica
-          value: 120000
-          email: jc.webservicdes@agilesolutions.com
-          updatedAt: 2020-06-15T22:04:30.000Z
-        "4":
-          createdAt: 2020-06-15T22:04:30.000Z
-          phone: 9332 4343
-          name: Arath
-          description: Los productos adjuntos van a El litre 2390, Valparaíso
-          deposit: 70000
-          id: 4
-          message: No aplica
-          value: 120000
-          email: jc.webservicdes@agilesolutions.com
-          updatedAt: 2020-06-15T22:04:30.000Z
-    getProducts_products_0:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Nescafé 150gr
         category:
           type: string
-          example: 9 3231 4311
         value:
           type: integer
-          example: 320000
         hasOffer:
           type: integer
-          example: 30000
         createdAt:
           type: string
-          example: 2020-06-16T20:05:48.000Z
         updatedAt:
           type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        createdAt: 2020-06-16T20:05:48.000Z
-        name: Nescafé 150gr
-        id: 5
-        category: 9 3231 4311
-        value: 320000
-        hasOffer: 30000
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getProducts_products_1:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Nescafé 100gr
-        category:
-          type: string
-          example: 9 3231 4311
-        value:
-          type: integer
-          example: 320000
-        hasOffer:
-          type: integer
-          example: 30000
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        createdAt: 2020-06-16T20:05:48.000Z
-        name: Nescafé 100gr
-        id: 5
-        category: 9 3231 4311
-        value: 320000
-        hasOffer: 30000
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getProducts_products_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Leche entera 1000cc
-        category:
-          type: string
-          example: 9 3231 4311
-        value:
-          type: integer
-          example: 320000
-        hasOffer:
-          type: integer
-          example: 30000
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        createdAt: 2020-06-16T20:05:48.000Z
-        name: Leche entera 1000cc
-        id: 5
-        category: 9 3231 4311
-        value: 320000
-        hasOffer: 30000
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getProducts_products_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Pan xl
-        category:
-          type: string
-          example: 9 3231 4311
-        value:
-          type: integer
-          example: 320000
-        hasOffer:
-          type: integer
-          example: 30000
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        createdAt: 2020-06-16T20:05:48.000Z
-        name: Pan xl
-        id: 5
-        category: 9 3231 4311
-        value: 320000
-        hasOffer: 30000
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getProducts_products:
-      type: object
-      properties:
-        "0":
-          $ref: '#/components/schemas/getProducts_products_0'
-        "1":
-          $ref: '#/components/schemas/getProducts_products_1'
-        "2":
-          $ref: '#/components/schemas/getProducts_products_2'
-        "3":
-          $ref: '#/components/schemas/getProducts_products_3'
-      example:
-        "0":
-          createdAt: 2020-06-16T20:05:48.000Z
-          name: Nescafé 150gr
-          id: 5
-          category: 9 3231 4311
-          value: 320000
-          hasOffer: 30000
-          updatedAt: 2020-06-16T23:05:14.000Z
-        "1":
-          createdAt: 2020-06-16T20:05:48.000Z
-          name: Nescafé 100gr
-          id: 5
-          category: 9 3231 4311
-          value: 320000
-          hasOffer: 30000
-          updatedAt: 2020-06-16T23:05:14.000Z
-        "2":
-          createdAt: 2020-06-16T20:05:48.000Z
-          name: Leche entera 1000cc
-          id: 5
-          category: 9 3231 4311
-          value: 320000
-          hasOffer: 30000
-          updatedAt: 2020-06-16T23:05:14.000Z
-        "3":
-          createdAt: 2020-06-16T20:05:48.000Z
-          name: Pan xl
-          id: 5
-          category: 9 3231 4311
-          value: 320000
-          hasOffer: 30000
-          updatedAt: 2020-06-16T23:05:14.000Z
