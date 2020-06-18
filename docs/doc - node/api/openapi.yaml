@@ -40,7 +40,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/notAuth'
+                $ref: '#/components/schemas/notAuthLogin'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Auth
   /users/{id}:
     get:
@@ -72,21 +78,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-      x-swagger-router-controller: Users
-  /users:
-    get:
-      tags:
-      - users
-      summary: Listar usuarios
-      description: No se requieren privilegos.
-      operationId: getUsers
-      responses:
-        "200":
-          description: Lista generada exitosamente
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getUsers'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
     put:
       tags:
@@ -94,6 +91,16 @@ paths:
       summary: Editar información
       description: Se requieren privilegios.
       operationId: editUser
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Usuario editado exitosamente.
@@ -113,32 +120,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
-      x-swagger-router-controller: Users
-    post:
-      tags:
-      - users
-      summary: Crear usuario
-      description: Se requieren privilegios.
-      operationId: createUser
-      responses:
-        "200":
-          description: Se requieren privilegios
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
     delete:
       tags:
@@ -146,6 +133,16 @@ paths:
       summary: Eliminar usuario
       description: Se requieren privilegios.
       operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Usuario eliminado exitosamente.
@@ -165,6 +162,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /users:
+    get:
+      tags:
+      - users
+      summary: Listar usuarios
+      description: No se requieren privilegos.
+      operationId: getUsers
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUsers'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+    post:
+      tags:
+      - users
+      summary: Crear usuario
+      description: Se requieren privilegios.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
   /orders/{id}:
     get:
@@ -196,21 +257,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-      x-swagger-router-controller: Orders
-  /orders:
-    get:
-      tags:
-      - orders
-      summary: Listar órdenes
-      description: No se requieren privilegos.
-      operationId: getOrders
-      responses:
-        "200":
-          description: Lista generada exitosamente
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getOrders'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Orders
     put:
       tags:
@@ -218,6 +270,16 @@ paths:
       summary: Editar información
       description: Se requieren privilegios.
       operationId: editOrder
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Orden editada exitosamente.
@@ -237,32 +299,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
-      x-swagger-router-controller: Orders
-    post:
-      tags:
-      - orders
-      summary: Crear orden
-      description: Se requieren privilegios.
-      operationId: createOrder
-      responses:
-        "200":
-          description: Solicitud exitosa.
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orderBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Orders
     delete:
       tags:
@@ -270,6 +312,16 @@ paths:
       summary: Eliminar orden
       description: Se requieren privilegios
       operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Orden eliminada exitosamente.
@@ -289,6 +341,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Orders
+  /orders:
+    get:
+      tags:
+      - orders
+      summary: Listar órdenes
+      description: No se requieren privilegos.
+      operationId: getOrders
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOrders'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Orders
+    post:
+      tags:
+      - orders
+      summary: Crear orden
+      description: Se requieren privilegios.
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orders'
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orderBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Orders
   /products/{id}:
     get:
@@ -320,21 +436,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
-      x-swagger-router-controller: Products
-  /products:
-    get:
-      tags:
-      - products
-      summary: Listar productos
-      description: No se requieren privilegos.
-      operationId: getProducts
-      responses:
-        "200":
-          description: Productos obtenidos exitosamente.
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProducts'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Products
     put:
       tags:
@@ -342,6 +449,16 @@ paths:
       summary: Editar información
       description: Se requieren privilegios.
       operationId: editProduct
+      parameters:
+      - name: id
+        in: path
+        description: Product ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Producto editado exitosamente.
@@ -361,39 +478,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
-      x-swagger-router-controller: Products
-    post:
-      tags:
-      - products
-      summary: Crear producto
-      description: Se requieren privilegios.
-      operationId: createProduct
-      responses:
-        "200":
-          description: Solicitud exitosa.
+        "500":
+          description: Error en el servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/productBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Products
     delete:
       tags:
       - products
       summary: Eliminar producto
       description: Se requieren privilegios
-      operationId: deleteUser
+      operationId: deleteProduct
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: Producto eliminado exitosamente.
@@ -413,9 +520,85 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Products
+  /products:
+    get:
+      tags:
+      - products
+      summary: Listar productos
+      description: No se requieren privilegos.
+      operationId: getProducts
+      responses:
+        "200":
+          description: Productos obtenidos exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProducts'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Products
+    post:
+      tags:
+      - products
+      summary: Crear producto
+      description: Se requieren privilegios.
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/products'
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Products
 components:
   schemas:
+    internalError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+        error:
+          type: string
+          example: Internal Server Error
+        message:
+          type: string
+          example: An internal server error occurred
     tokenResponse:
       type: object
       properties:
@@ -424,6 +607,18 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
       example:
         token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
+    notAuthLogin:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: can't authenticate
     notAuth:
       type: object
       properties:

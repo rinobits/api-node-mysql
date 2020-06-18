@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var Products = require('../service/ProductsService');
 
-module.exports.createProduct = function createProduct (req, res, next) {
-  Products.createProduct()
+module.exports.createProduct = function createProduct (req, res, next, body) {
+  Products.createProduct(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createProduct = function createProduct (req, res, next) {
     });
 };
 
-module.exports.deleteUser = function deleteUser (req, res, next) {
-  Products.deleteUser()
+module.exports.deleteProduct = function deleteProduct (req, res, next, id) {
+  Products.deleteProduct(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deleteUser = function deleteUser (req, res, next) {
     });
 };
 
-module.exports.editProduct = function editProduct (req, res, next) {
-  Products.editProduct()
+module.exports.editProduct = function editProduct (req, res, next, id) {
+  Products.editProduct(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

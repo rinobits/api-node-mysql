@@ -5,9 +5,10 @@
  * Crear producto
  * Se requieren privilegios.
  *
+ * body Products  (optional)
  * returns createTrue
  **/
-exports.createProduct = function() {
+exports.createProduct = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -26,9 +27,10 @@ exports.createProduct = function() {
  * Eliminar producto
  * Se requieren privilegios
  *
+ * id Long Order ID
  * returns deleteTrue
  **/
-exports.deleteUser = function() {
+exports.deleteProduct = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -47,9 +49,10 @@ exports.deleteUser = function() {
  * Editar información
  * Se requieren privilegios.
  *
+ * id Long Product ID
  * returns modifyTrue
  **/
-exports.editProduct = function() {
+exports.editProduct = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

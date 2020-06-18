@@ -5,9 +5,10 @@
  * Crear usuario
  * Se requieren privilegios.
  *
+ * body Users  (optional)
  * returns createTrue
  **/
-exports.createUser = function() {
+exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -26,9 +27,10 @@ exports.createUser = function() {
  * Eliminar usuario
  * Se requieren privilegios.
  *
+ * id Long Order ID
  * returns deleteTrue
  **/
-exports.deleteUser = function() {
+exports.deleteUser = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -47,9 +49,10 @@ exports.deleteUser = function() {
  * Editar información
  * Se requieren privilegios.
  *
+ * id Long Order ID
  * returns modifyTrue
  **/
-exports.editUser = function() {
+exports.editUser = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

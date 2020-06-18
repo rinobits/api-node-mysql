@@ -1364,6 +1364,23 @@
     }
   }
 };
+            defs.internalError = {
+  "type" : "object",
+  "properties" : {
+    "statusCode" : {
+      "type" : "integer",
+      "example" : 500
+    },
+    "error" : {
+      "type" : "string",
+      "example" : "Internal Server Error"
+    },
+    "message" : {
+      "type" : "string",
+      "example" : "An internal server error occurred"
+    }
+  }
+};
             defs.modifyTrue = {
   "type" : "object",
   "properties" : {
@@ -1387,6 +1404,23 @@
     "message" : {
       "type" : "string",
       "example" : "Unauthorized"
+    }
+  }
+};
+            defs.notAuthLogin = {
+  "type" : "object",
+  "properties" : {
+    "statusCode" : {
+      "type" : "integer",
+      "example" : 401
+    },
+    "error" : {
+      "type" : "string",
+      "example" : "Unauthorized"
+    },
+    "message" : {
+      "type" : "string",
+      "example" : "can't authenticate"
     }
   }
 };
@@ -1568,8 +1602,8 @@
                     <li data-group="Products" data-name="createProduct" class="">
                       <a href="#api-Products-createProduct">createProduct</a>
                     </li>
-                    <li data-group="Products" data-name="deleteUser" class="">
-                      <a href="#api-Products-deleteUser">deleteUser</a>
+                    <li data-group="Products" data-name="deleteProduct" class="">
+                      <a href="#api-Products-deleteProduct">deleteProduct</a>
                     </li>
                     <li data-group="Products" data-name="editProduct" class="">
                       <a href="#api-Products-editProduct">editProduct</a>
@@ -1940,7 +1974,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/notAuth"
+        "$ref" : "#/components/schemas/notAuthLogin"
       }
     }
   }
@@ -1966,6 +2000,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-authenticate-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-authenticate-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-authenticate-500-schema">
+                                  <div id='responses-authenticate-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-authenticate-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-authenticate-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-authenticate-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -2023,8 +2105,9 @@ public class OrdersApiExample {
     public static void main(String[] args) {
         
         OrdersApi apiInstance = new OrdersApi();
+        Orders body = ; // Orders | 
         try {
-            createTrue result = apiInstance.createOrder();
+            createTrue result = apiInstance.createOrder(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#createOrder");
@@ -2041,8 +2124,9 @@ public class OrdersApiExample {
 
     public static void main(String[] args) {
         OrdersApi apiInstance = new OrdersApi();
+        Orders body = ; // Orders | 
         try {
-            createTrue result = apiInstance.createOrder();
+            createTrue result = apiInstance.createOrder(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#createOrder");
@@ -2056,12 +2140,13 @@ public class OrdersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Orders-createOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Orders *body = ; //  (optional)
+
 OrdersApi *apiInstance = [[OrdersApi alloc] init];
 
 // Crear orden
-[apiInstance createOrderWithCompletionHandler: 
-              ^(createTrue output, NSError* error) {
+[apiInstance createOrderWith:body
+              completionHandler: ^(createTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2076,6 +2161,7 @@ OrdersApi *apiInstance = [[OrdersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.OrdersApi()
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2083,7 +2169,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.createOrder(callback);
+api.createOrder(, callback);
 </code></pre>
                             </div>
 
@@ -2105,11 +2191,12 @@ namespace Example
         {
 
             var apiInstance = new OrdersApi();
+            var body = new Orders(); // Orders |  (optional) 
 
             try
             {
                 // Crear orden
-                createTrue result = apiInstance.createOrder();
+                createTrue result = apiInstance.createOrder(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2127,9 +2214,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiOrdersApi();
+$body = ; // Orders | 
 
 try {
-    $result = $api_instance->createOrder();
+    $result = $api_instance->createOrder($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling OrdersApi->createOrder: ', $e->getMessage(), PHP_EOL;
@@ -2143,9 +2231,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::OrdersApi;
 
 my $api_instance = WWW::SwaggerClient::OrdersApi->new();
+my $body = WWW::SwaggerClient::Object::Orders->new(); # Orders | 
 
 eval { 
-    my $result = $api_instance->createOrder();
+    my $result = $api_instance->createOrder(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -2162,10 +2251,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.OrdersApi()
+body =  # Orders |  (optional)
 
 try: 
     # Crear orden
-    api_response = api_instance.create_order()
+    api_response = api_instance.create_order(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OrdersApi->createOrder: %s\n" % e)</code></pre>
@@ -2176,6 +2266,48 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body </td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/orders"
+      }
+    }
+  }
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_createOrder_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_createOrder_body"></div>
+                                </td>
+                                </tr>
+                            </table>
 
 
 
@@ -2324,6 +2456,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-createOrder-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-createOrder-500-schema">
+                                  <div id='responses-createOrder-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-createOrder-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-createOrder-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-createOrder-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -2339,7 +2519,7 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/orders</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/orders/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -2359,7 +2539,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Orders-deleteOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//orders"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//orders/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Orders-deleteOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2375,8 +2555,9 @@ public class OrdersApiExample {
     public static void main(String[] args) {
         
         OrdersApi apiInstance = new OrdersApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteOrder();
+            deleteTrue result = apiInstance.deleteOrder(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#deleteOrder");
@@ -2393,8 +2574,9 @@ public class OrdersApiExample {
 
     public static void main(String[] args) {
         OrdersApi apiInstance = new OrdersApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteOrder();
+            deleteTrue result = apiInstance.deleteOrder(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#deleteOrder");
@@ -2408,12 +2590,13 @@ public class OrdersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Orders-deleteOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Order ID
+
 OrdersApi *apiInstance = [[OrdersApi alloc] init];
 
 // Eliminar orden
-[apiInstance deleteOrderWithCompletionHandler: 
-              ^(deleteTrue output, NSError* error) {
+[apiInstance deleteOrderWith:id
+              completionHandler: ^(deleteTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2428,6 +2611,8 @@ OrdersApi *apiInstance = [[OrdersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.OrdersApi()
+var id = 789; // {{Long}} Order ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2435,7 +2620,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.deleteOrder(callback);
+api.deleteOrder(id, callback);
 </code></pre>
                             </div>
 
@@ -2457,11 +2642,12 @@ namespace Example
         {
 
             var apiInstance = new OrdersApi();
+            var id = 789;  // Long | Order ID
 
             try
             {
                 // Eliminar orden
-                deleteTrue result = apiInstance.deleteOrder();
+                deleteTrue result = apiInstance.deleteOrder(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2479,9 +2665,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiOrdersApi();
+$id = 789; // Long | Order ID
 
 try {
-    $result = $api_instance->deleteOrder();
+    $result = $api_instance->deleteOrder($id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling OrdersApi->deleteOrder: ', $e->getMessage(), PHP_EOL;
@@ -2495,9 +2682,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::OrdersApi;
 
 my $api_instance = WWW::SwaggerClient::OrdersApi->new();
+my $id = 789; # Long | Order ID
 
 eval { 
-    my $result = $api_instance->deleteOrder();
+    my $result = $api_instance->deleteOrder(id => $id);
     print Dumper($result);
 };
 if ($@) {
@@ -2514,10 +2702,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.OrdersApi()
+id = 789 # Long | Order ID
 
 try: 
     # Eliminar orden
-    api_response = api_instance.delete_order()
+    api_response = api_instance.delete_order(id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OrdersApi->deleteOrder: %s\n" % e)</code></pre>
@@ -2526,6 +2715,38 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_deleteOrder_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Order ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -2676,6 +2897,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteOrder-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteOrder-500-schema">
+                                  <div id='responses-deleteOrder-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteOrder-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteOrder-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteOrder-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -2691,7 +2960,7 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/orders</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/orders/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -2711,7 +2980,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Orders-editOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//orders"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//orders/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Orders-editOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2727,8 +2996,9 @@ public class OrdersApiExample {
     public static void main(String[] args) {
         
         OrdersApi apiInstance = new OrdersApi();
+        Long id = 789; // Long | Order ID
         try {
-            modifyTrue result = apiInstance.editOrder();
+            modifyTrue result = apiInstance.editOrder(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#editOrder");
@@ -2745,8 +3015,9 @@ public class OrdersApiExample {
 
     public static void main(String[] args) {
         OrdersApi apiInstance = new OrdersApi();
+        Long id = 789; // Long | Order ID
         try {
-            modifyTrue result = apiInstance.editOrder();
+            modifyTrue result = apiInstance.editOrder(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling OrdersApi#editOrder");
@@ -2760,12 +3031,13 @@ public class OrdersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Orders-editOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Order ID
+
 OrdersApi *apiInstance = [[OrdersApi alloc] init];
 
 // Editar información
-[apiInstance editOrderWithCompletionHandler: 
-              ^(modifyTrue output, NSError* error) {
+[apiInstance editOrderWith:id
+              completionHandler: ^(modifyTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2780,6 +3052,8 @@ OrdersApi *apiInstance = [[OrdersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.OrdersApi()
+var id = 789; // {{Long}} Order ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2787,7 +3061,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.editOrder(callback);
+api.editOrder(id, callback);
 </code></pre>
                             </div>
 
@@ -2809,11 +3083,12 @@ namespace Example
         {
 
             var apiInstance = new OrdersApi();
+            var id = 789;  // Long | Order ID
 
             try
             {
                 // Editar información
-                modifyTrue result = apiInstance.editOrder();
+                modifyTrue result = apiInstance.editOrder(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2831,9 +3106,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiOrdersApi();
+$id = 789; // Long | Order ID
 
 try {
-    $result = $api_instance->editOrder();
+    $result = $api_instance->editOrder($id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling OrdersApi->editOrder: ', $e->getMessage(), PHP_EOL;
@@ -2847,9 +3123,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::OrdersApi;
 
 my $api_instance = WWW::SwaggerClient::OrdersApi->new();
+my $id = 789; # Long | Order ID
 
 eval { 
-    my $result = $api_instance->editOrder();
+    my $result = $api_instance->editOrder(id => $id);
     print Dumper($result);
 };
 if ($@) {
@@ -2866,10 +3143,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.OrdersApi()
+id = 789 # Long | Order ID
 
 try: 
     # Editar información
-    api_response = api_instance.edit_order()
+    api_response = api_instance.edit_order(id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OrdersApi->editOrder: %s\n" % e)</code></pre>
@@ -2878,6 +3156,38 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_editOrder_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Order ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -3025,6 +3335,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-editOrder-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-editOrder-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-editOrder-500-schema">
+                                  <div id='responses-editOrder-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-editOrder-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-editOrder-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-editOrder-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -3373,6 +3731,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getOrderById-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getOrderById-500-schema">
+                                  <div id='responses-getOrderById-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getOrderById-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getOrderById-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getOrderById-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -3629,6 +4035,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getOrders-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getOrders-500-schema">
+                                  <div id='responses-getOrders-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getOrders-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getOrders-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getOrders-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -3683,8 +4137,9 @@ public class ProductsApiExample {
     public static void main(String[] args) {
         
         ProductsApi apiInstance = new ProductsApi();
+        Products body = ; // Products | 
         try {
-            createTrue result = apiInstance.createProduct();
+            createTrue result = apiInstance.createProduct(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#createProduct");
@@ -3701,8 +4156,9 @@ public class ProductsApiExample {
 
     public static void main(String[] args) {
         ProductsApi apiInstance = new ProductsApi();
+        Products body = ; // Products | 
         try {
-            createTrue result = apiInstance.createProduct();
+            createTrue result = apiInstance.createProduct(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#createProduct");
@@ -3716,12 +4172,13 @@ public class ProductsApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Products-createProduct-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Products *body = ; //  (optional)
+
 ProductsApi *apiInstance = [[ProductsApi alloc] init];
 
 // Crear producto
-[apiInstance createProductWithCompletionHandler: 
-              ^(createTrue output, NSError* error) {
+[apiInstance createProductWith:body
+              completionHandler: ^(createTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3736,6 +4193,7 @@ ProductsApi *apiInstance = [[ProductsApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.ProductsApi()
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -3743,7 +4201,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.createProduct(callback);
+api.createProduct(, callback);
 </code></pre>
                             </div>
 
@@ -3765,11 +4223,12 @@ namespace Example
         {
 
             var apiInstance = new ProductsApi();
+            var body = new Products(); // Products |  (optional) 
 
             try
             {
                 // Crear producto
-                createTrue result = apiInstance.createProduct();
+                createTrue result = apiInstance.createProduct(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3787,9 +4246,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiProductsApi();
+$body = ; // Products | 
 
 try {
-    $result = $api_instance->createProduct();
+    $result = $api_instance->createProduct($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ProductsApi->createProduct: ', $e->getMessage(), PHP_EOL;
@@ -3803,9 +4263,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::ProductsApi;
 
 my $api_instance = WWW::SwaggerClient::ProductsApi->new();
+my $body = WWW::SwaggerClient::Object::Products->new(); # Products | 
 
 eval { 
-    my $result = $api_instance->createProduct();
+    my $result = $api_instance->createProduct(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -3822,10 +4283,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ProductsApi()
+body =  # Products |  (optional)
 
 try: 
     # Crear producto
-    api_response = api_instance.create_product()
+    api_response = api_instance.create_product(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ProductsApi->createProduct: %s\n" % e)</code></pre>
@@ -3836,6 +4298,48 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body </td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/products"
+      }
+    }
+  }
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_createProduct_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_createProduct_body"></div>
+                                </td>
+                                </tr>
+                            </table>
 
 
 
@@ -3984,13 +4488,61 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-createProduct-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-createProduct-500-schema">
+                                  <div id='responses-createProduct-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-createProduct-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-createProduct-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-createProduct-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
-                    <div id="api-Products-deleteUser">
-                      <article id="api-Products-deleteUser-0" data-group="User" data-name="deleteUser" data-version="0">
+                    <div id="api-Products-deleteProduct">
+                      <article id="api-Products-deleteProduct-0" data-group="User" data-name="deleteProduct" data-version="0">
                         <div class="pull-left">
-                          <h1>deleteUser</h1>
+                          <h1>deleteProduct</h1>
                           <p>Eliminar producto</p>
                         </div>
                         <div class="pull-right"></div>
@@ -3999,29 +4551,29 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/products</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/products/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Products-deleteUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Products-deleteUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Products-deleteUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Products-deleteUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Products-deleteUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Products-deleteUser-0-python">Python</a></li>
+                          <li class="active"><a href="#examples-Products-deleteProduct-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Products-deleteProduct-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Products-deleteProduct-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Products-deleteProduct-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Products-deleteProduct-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Products-deleteProduct-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Products-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//products"</code></pre>
+                          <div class="tab-pane active" id="examples-Products-deleteProduct-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//products/{id}"</code></pre>
                           </div>
-                          <div class="tab-pane" id="examples-Products-deleteUser-0-java">
+                          <div class="tab-pane" id="examples-Products-deleteProduct-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -4035,45 +4587,48 @@ public class ProductsApiExample {
     public static void main(String[] args) {
         
         ProductsApi apiInstance = new ProductsApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteUser();
+            deleteTrue result = apiInstance.deleteProduct(id);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ProductsApi#deleteUser");
+            System.err.println("Exception when calling ProductsApi#deleteProduct");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
 
-                          <div class="tab-pane" id="examples-Products-deleteUser-0-android">
+                          <div class="tab-pane" id="examples-Products-deleteProduct-0-android">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.ProductsApi;
 
 public class ProductsApiExample {
 
     public static void main(String[] args) {
         ProductsApi apiInstance = new ProductsApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteUser();
+            deleteTrue result = apiInstance.deleteProduct(id);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ProductsApi#deleteUser");
+            System.err.println("Exception when calling ProductsApi#deleteProduct");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
   <!--
-  <div class="tab-pane" id="examples-Products-deleteUser-0-groovy">
+  <div class="tab-pane" id="examples-Products-deleteProduct-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Order ID
+
 ProductsApi *apiInstance = [[ProductsApi alloc] init];
 
 // Eliminar producto
-[apiInstance deleteUserWithCompletionHandler: 
-              ^(deleteTrue output, NSError* error) {
+[apiInstance deleteProductWith:id
+              completionHandler: ^(deleteTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4084,10 +4639,12 @@ ProductsApi *apiInstance = [[ProductsApi alloc] init];
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-javascript">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.ProductsApi()
+var id = 789; // {{Long}} Order ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -4095,14 +4652,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.deleteUser(callback);
+api.deleteProduct(id, callback);
 </code></pre>
                             </div>
 
-                            <!--<div class="tab-pane" id="examples-Products-deleteUser-0-angular">
+                            <!--<div class="tab-pane" id="examples-Products-deleteProduct-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-csharp">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
@@ -4111,22 +4668,23 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class deleteUserExample
+    public class deleteProductExample
     {
         public void main()
         {
 
             var apiInstance = new ProductsApi();
+            var id = 789;  // Long | Order ID
 
             try
             {
                 // Eliminar producto
-                deleteTrue result = apiInstance.deleteUser();
+                deleteTrue result = apiInstance.deleteProduct(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling ProductsApi.deleteUser: " + e.Message );
+                Debug.Print("Exception when calling ProductsApi.deleteProduct: " + e.Message );
             }
         }
     }
@@ -4134,38 +4692,40 @@ namespace Example
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-php">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-php">
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiProductsApi();
+$id = 789; // Long | Order ID
 
 try {
-    $result = $api_instance->deleteUser();
+    $result = $api_instance->deleteProduct($id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling ProductsApi->deleteUser: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ProductsApi->deleteProduct: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-perl">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::ProductsApi;
 
 my $api_instance = WWW::SwaggerClient::ProductsApi->new();
+my $id = 789; # Long | Order ID
 
 eval { 
-    my $result = $api_instance->deleteUser();
+    my $result = $api_instance->deleteProduct(id => $id);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling ProductsApi->deleteUser: $@\n";
+    warn "Exception when calling ProductsApi->deleteProduct: $@\n";
 }</code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Products-deleteUser-0-python">
+                            <div class="tab-pane" id="examples-Products-deleteProduct-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
 import swagger_client
@@ -4174,18 +4734,51 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ProductsApi()
+id = 789 # Long | Order ID
 
 try: 
     # Eliminar producto
-    api_response = api_instance.delete_user()
+    api_response = api_instance.delete_product(id)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling ProductsApi->deleteUser: %s\n" % e)</code></pre>
+    print("Exception when calling ProductsApi->deleteProduct: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_deleteProduct_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Order ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -4196,14 +4789,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-deleteUser-200-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-deleteProduct-200-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deleteUser-200-schema">
-                                  <div id='responses-deleteUser-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-deleteProduct-200-schema">
+                                  <div id='responses-deleteProduct-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -4229,14 +4822,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deleteUser-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deleteUser-200-schema-200');
+                                        $('#responses-deleteProduct-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteProduct-200-schema-200');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-deleteUser-200-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-deleteProduct-200-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4244,14 +4837,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-deleteUser-400-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-deleteProduct-400-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deleteUser-400-schema">
-                                  <div id='responses-deleteUser-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-deleteProduct-400-schema">
+                                  <div id='responses-deleteProduct-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -4277,14 +4870,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deleteUser-400-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deleteUser-400-schema-400');
+                                        $('#responses-deleteProduct-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteProduct-400-schema-400');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-deleteUser-400-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-deleteProduct-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4292,14 +4885,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-deleteUser-401-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-deleteProduct-401-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deleteUser-401-schema">
-                                  <div id='responses-deleteUser-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-deleteProduct-401-schema">
+                                  <div id='responses-deleteProduct-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -4325,14 +4918,62 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deleteUser-401-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deleteUser-401-schema-401');
+                                        $('#responses-deleteProduct-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteProduct-401-schema-401');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-deleteUser-401-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-deleteProduct-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteProduct-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteProduct-500-schema">
+                                  <div id='responses-deleteProduct-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteProduct-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteProduct-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteProduct-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4351,7 +4992,7 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/products</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/products/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -4371,7 +5012,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Products-editProduct-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//products"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//products/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Products-editProduct-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4387,8 +5028,9 @@ public class ProductsApiExample {
     public static void main(String[] args) {
         
         ProductsApi apiInstance = new ProductsApi();
+        Long id = 789; // Long | Product ID
         try {
-            modifyTrue result = apiInstance.editProduct();
+            modifyTrue result = apiInstance.editProduct(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#editProduct");
@@ -4405,8 +5047,9 @@ public class ProductsApiExample {
 
     public static void main(String[] args) {
         ProductsApi apiInstance = new ProductsApi();
+        Long id = 789; // Long | Product ID
         try {
-            modifyTrue result = apiInstance.editProduct();
+            modifyTrue result = apiInstance.editProduct(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#editProduct");
@@ -4420,12 +5063,13 @@ public class ProductsApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Products-editProduct-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Product ID
+
 ProductsApi *apiInstance = [[ProductsApi alloc] init];
 
 // Editar información
-[apiInstance editProductWithCompletionHandler: 
-              ^(modifyTrue output, NSError* error) {
+[apiInstance editProductWith:id
+              completionHandler: ^(modifyTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4440,6 +5084,8 @@ ProductsApi *apiInstance = [[ProductsApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.ProductsApi()
+var id = 789; // {{Long}} Product ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -4447,7 +5093,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.editProduct(callback);
+api.editProduct(id, callback);
 </code></pre>
                             </div>
 
@@ -4469,11 +5115,12 @@ namespace Example
         {
 
             var apiInstance = new ProductsApi();
+            var id = 789;  // Long | Product ID
 
             try
             {
                 // Editar información
-                modifyTrue result = apiInstance.editProduct();
+                modifyTrue result = apiInstance.editProduct(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4491,9 +5138,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiProductsApi();
+$id = 789; // Long | Product ID
 
 try {
-    $result = $api_instance->editProduct();
+    $result = $api_instance->editProduct($id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ProductsApi->editProduct: ', $e->getMessage(), PHP_EOL;
@@ -4507,9 +5155,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::ProductsApi;
 
 my $api_instance = WWW::SwaggerClient::ProductsApi->new();
+my $id = 789; # Long | Product ID
 
 eval { 
-    my $result = $api_instance->editProduct();
+    my $result = $api_instance->editProduct(id => $id);
     print Dumper($result);
 };
 if ($@) {
@@ -4526,10 +5175,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.ProductsApi()
+id = 789 # Long | Product ID
 
 try: 
     # Editar información
-    api_response = api_instance.edit_product()
+    api_response = api_instance.edit_product(id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ProductsApi->editProduct: %s\n" % e)</code></pre>
@@ -4538,6 +5188,38 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_editProduct_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Product ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -4685,6 +5367,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-editProduct-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-editProduct-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-editProduct-500-schema">
+                                  <div id='responses-editProduct-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-editProduct-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-editProduct-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-editProduct-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -5033,6 +5763,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getProductById-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getProductById-500-schema">
+                                  <div id='responses-getProductById-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getProductById-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getProductById-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getProductById-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -5289,6 +6067,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getProducts-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getProducts-500-schema">
+                                  <div id='responses-getProducts-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getProducts-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getProducts-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getProducts-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -5343,8 +6169,9 @@ public class UsersApiExample {
     public static void main(String[] args) {
         
         UsersApi apiInstance = new UsersApi();
+        Users body = ; // Users | 
         try {
-            createTrue result = apiInstance.createUser();
+            createTrue result = apiInstance.createUser(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#createUser");
@@ -5361,8 +6188,9 @@ public class UsersApiExample {
 
     public static void main(String[] args) {
         UsersApi apiInstance = new UsersApi();
+        Users body = ; // Users | 
         try {
-            createTrue result = apiInstance.createUser();
+            createTrue result = apiInstance.createUser(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#createUser");
@@ -5376,12 +6204,13 @@ public class UsersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Users-createUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Users *body = ; //  (optional)
+
 UsersApi *apiInstance = [[UsersApi alloc] init];
 
 // Crear usuario
-[apiInstance createUserWithCompletionHandler: 
-              ^(createTrue output, NSError* error) {
+[apiInstance createUserWith:body
+              completionHandler: ^(createTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5396,6 +6225,7 @@ UsersApi *apiInstance = [[UsersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.UsersApi()
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -5403,7 +6233,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.createUser(callback);
+api.createUser(, callback);
 </code></pre>
                             </div>
 
@@ -5425,11 +6255,12 @@ namespace Example
         {
 
             var apiInstance = new UsersApi();
+            var body = new Users(); // Users |  (optional) 
 
             try
             {
                 // Crear usuario
-                createTrue result = apiInstance.createUser();
+                createTrue result = apiInstance.createUser(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5447,9 +6278,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUsersApi();
+$body = ; // Users | 
 
 try {
-    $result = $api_instance->createUser();
+    $result = $api_instance->createUser($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersApi->createUser: ', $e->getMessage(), PHP_EOL;
@@ -5463,9 +6295,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UsersApi;
 
 my $api_instance = WWW::SwaggerClient::UsersApi->new();
+my $body = WWW::SwaggerClient::Object::Users->new(); # Users | 
 
 eval { 
-    my $result = $api_instance->createUser();
+    my $result = $api_instance->createUser(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -5482,10 +6315,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UsersApi()
+body =  # Users |  (optional)
 
 try: 
     # Crear usuario
-    api_response = api_instance.create_user()
+    api_response = api_instance.create_user(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UsersApi->createUser: %s\n" % e)</code></pre>
@@ -5496,6 +6330,48 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body </td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/users"
+      }
+    }
+  }
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_createUser_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_createUser_body"></div>
+                                </td>
+                                </tr>
+                            </table>
 
 
 
@@ -5644,6 +6520,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-createUser-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-createUser-500-schema">
+                                  <div id='responses-createUser-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-createUser-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-createUser-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-createUser-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -5659,7 +6583,7 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/users</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/users/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -5679,7 +6603,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//users"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "//users/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Users-deleteUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5695,8 +6619,9 @@ public class UsersApiExample {
     public static void main(String[] args) {
         
         UsersApi apiInstance = new UsersApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteUser();
+            deleteTrue result = apiInstance.deleteUser(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#deleteUser");
@@ -5713,8 +6638,9 @@ public class UsersApiExample {
 
     public static void main(String[] args) {
         UsersApi apiInstance = new UsersApi();
+        Long id = 789; // Long | Order ID
         try {
-            deleteTrue result = apiInstance.deleteUser();
+            deleteTrue result = apiInstance.deleteUser(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#deleteUser");
@@ -5728,12 +6654,13 @@ public class UsersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Users-deleteUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Order ID
+
 UsersApi *apiInstance = [[UsersApi alloc] init];
 
 // Eliminar usuario
-[apiInstance deleteUserWithCompletionHandler: 
-              ^(deleteTrue output, NSError* error) {
+[apiInstance deleteUserWith:id
+              completionHandler: ^(deleteTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5748,6 +6675,8 @@ UsersApi *apiInstance = [[UsersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.UsersApi()
+var id = 789; // {{Long}} Order ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -5755,7 +6684,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.deleteUser(callback);
+api.deleteUser(id, callback);
 </code></pre>
                             </div>
 
@@ -5777,11 +6706,12 @@ namespace Example
         {
 
             var apiInstance = new UsersApi();
+            var id = 789;  // Long | Order ID
 
             try
             {
                 // Eliminar usuario
-                deleteTrue result = apiInstance.deleteUser();
+                deleteTrue result = apiInstance.deleteUser(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5799,9 +6729,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUsersApi();
+$id = 789; // Long | Order ID
 
 try {
-    $result = $api_instance->deleteUser();
+    $result = $api_instance->deleteUser($id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersApi->deleteUser: ', $e->getMessage(), PHP_EOL;
@@ -5815,9 +6746,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UsersApi;
 
 my $api_instance = WWW::SwaggerClient::UsersApi->new();
+my $id = 789; # Long | Order ID
 
 eval { 
-    my $result = $api_instance->deleteUser();
+    my $result = $api_instance->deleteUser(id => $id);
     print Dumper($result);
 };
 if ($@) {
@@ -5834,10 +6766,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UsersApi()
+id = 789 # Long | Order ID
 
 try: 
     # Eliminar usuario
-    api_response = api_instance.delete_user()
+    api_response = api_instance.delete_user(id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UsersApi->deleteUser: %s\n" % e)</code></pre>
@@ -5846,6 +6779,38 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_deleteUser_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Order ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -5996,6 +6961,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteUser-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteUser-500-schema">
+                                  <div id='responses-deleteUser-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteUser-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteUser-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteUser-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -6011,7 +7024,7 @@ except ApiException as e:
                         <p class="marked">Se requieren privilegios.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/users</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/users/{id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -6031,7 +7044,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-editUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//users"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "//users/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Users-editUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6047,8 +7060,9 @@ public class UsersApiExample {
     public static void main(String[] args) {
         
         UsersApi apiInstance = new UsersApi();
+        Long id = 789; // Long | Order ID
         try {
-            modifyTrue result = apiInstance.editUser();
+            modifyTrue result = apiInstance.editUser(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#editUser");
@@ -6065,8 +7079,9 @@ public class UsersApiExample {
 
     public static void main(String[] args) {
         UsersApi apiInstance = new UsersApi();
+        Long id = 789; // Long | Order ID
         try {
-            modifyTrue result = apiInstance.editUser();
+            modifyTrue result = apiInstance.editUser(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#editUser");
@@ -6080,12 +7095,13 @@ public class UsersApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Users-editUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Long *id = 789; // Order ID
+
 UsersApi *apiInstance = [[UsersApi alloc] init];
 
 // Editar información
-[apiInstance editUserWithCompletionHandler: 
-              ^(modifyTrue output, NSError* error) {
+[apiInstance editUserWith:id
+              completionHandler: ^(modifyTrue output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -6100,6 +7116,8 @@ UsersApi *apiInstance = [[UsersApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var GeneracinDeRdenes = require('generacin_de_rdenes');
 
 var api = new GeneracinDeRdenes.UsersApi()
+var id = 789; // {{Long}} Order ID
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -6107,7 +7125,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.editUser(callback);
+api.editUser(id, callback);
 </code></pre>
                             </div>
 
@@ -6129,11 +7147,12 @@ namespace Example
         {
 
             var apiInstance = new UsersApi();
+            var id = 789;  // Long | Order ID
 
             try
             {
                 // Editar información
-                modifyTrue result = apiInstance.editUser();
+                modifyTrue result = apiInstance.editUser(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -6151,9 +7170,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUsersApi();
+$id = 789; // Long | Order ID
 
 try {
-    $result = $api_instance->editUser();
+    $result = $api_instance->editUser($id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersApi->editUser: ', $e->getMessage(), PHP_EOL;
@@ -6167,9 +7187,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UsersApi;
 
 my $api_instance = WWW::SwaggerClient::UsersApi->new();
+my $id = 789; # Long | Order ID
 
 eval { 
-    my $result = $api_instance->editUser();
+    my $result = $api_instance->editUser(id => $id);
     print Dumper($result);
 };
 if ($@) {
@@ -6186,10 +7207,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UsersApi()
+id = 789 # Long | Order ID
 
 try: 
     # Editar información
-    api_response = api_instance.edit_user()
+    api_response = api_instance.edit_user(id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UsersApi->editUser: %s\n" % e)</code></pre>
@@ -6198,6 +7220,38 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_editUser_id">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      Long
+                                                  </span>
+                                                      <span class="format">
+                                                          (int64)
+                                                      </span>
+                                  
+                                                      <div class="inner description">
+                                                          Order ID
+                                                      </div>
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -6345,6 +7399,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-editUser-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-editUser-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-editUser-500-schema">
+                                  <div id='responses-editUser-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-editUser-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-editUser-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-editUser-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -6693,6 +7795,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getUserById-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getUserById-500-schema">
+                                  <div id='responses-getUserById-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getUserById-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getUserById-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getUserById-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -6946,6 +8096,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-getUsers-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Error en el servidor </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getUsers-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getUsers-500-schema">
+                                  <div id='responses-getUsers-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Error en el servidor",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/internalError"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getUsers-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getUsers-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getUsers-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 

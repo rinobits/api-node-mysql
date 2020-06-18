@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Users = require('../service/UsersService');
+var Orders = require('../service/OrdersService');
 
-module.exports.createUser = function createUser (req, res, next) {
-  Users.createUser()
+module.exports.createOrder = function createOrder (req, res, next, body) {
+  Orders.createOrder(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createUser = function createUser (req, res, next) {
     });
 };
 
-module.exports.deleteUser = function deleteUser (req, res, next) {
-  Users.deleteUser()
+module.exports.deleteOrder = function deleteOrder (req, res, next, id) {
+  Orders.deleteOrder(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deleteUser = function deleteUser (req, res, next) {
     });
 };
 
-module.exports.editUser = function editUser (req, res, next) {
-  Users.editUser()
+module.exports.editOrder = function editOrder (req, res, next, id) {
+  Orders.editOrder(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.editUser = function editUser (req, res, next) {
     });
 };
 
-module.exports.getUserById = function getUserById (req, res, next, id) {
-  Users.getUserById(id)
+module.exports.getOrderById = function getOrderById (req, res, next, id) {
+  Orders.getOrderById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.getUserById = function getUserById (req, res, next, id) {
     });
 };
 
-module.exports.getUsers = function getUsers (req, res, next) {
-  Users.getUsers()
+module.exports.getOrders = function getOrders (req, res, next) {
+  Orders.getOrders()
     .then(function (response) {
       utils.writeJson(res, response);
     })

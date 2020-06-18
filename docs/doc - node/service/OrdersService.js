@@ -5,9 +5,10 @@
  * Crear orden
  * Se requieren privilegios.
  *
+ * body Orders  (optional)
  * returns createTrue
  **/
-exports.createOrder = function() {
+exports.createOrder = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -26,9 +27,10 @@ exports.createOrder = function() {
  * Eliminar orden
  * Se requieren privilegios
  *
+ * id Long Order ID
  * returns deleteTrue
  **/
-exports.deleteOrder = function() {
+exports.deleteOrder = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -47,9 +49,10 @@ exports.deleteOrder = function() {
  * Editar información
  * Se requieren privilegios.
  *
+ * id Long Order ID
  * returns modifyTrue
  **/
-exports.editOrder = function() {
+exports.editOrder = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
