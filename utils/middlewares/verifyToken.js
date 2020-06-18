@@ -14,9 +14,7 @@ module.exports = (req, res, next) => {
         jwt.verify(req.token, authJwtSecret, (e, auth) => {
             if(e){
                 e = boom.unauthorized(e);
-                e = e.output.payload;
-                e.message = "Unauthorized";
-                res.json(e);
+                next(e);
             }else{
                 next();
             }

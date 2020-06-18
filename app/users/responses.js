@@ -5,6 +5,7 @@ const boom                      = require('@hapi/boom');
 const UserServices              = require('./services');
 const validatorHandler          = require('../../utils/middlewares/validatorHandler');
 const userServices              = new UserServices();
+
 const searchUsers = () => {
     return (req, res, next) => {
         userServices.findUsers()
