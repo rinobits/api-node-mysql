@@ -11,8 +11,8 @@ const verifyToken                              = require('../../utils/middleware
 router.get('/', control.searchOrders());
 router.get('/:id', control.searchOrderById());
 // admin
-router.post('/', validatorHandler(orderSchemaCreate, 'body'), verifyToken, control.createOrder());
-router.put('/:id', validatorHandler(orderSchemaUpdate, 'body'), verifyToken, control.updateOrderById());
+router.post('/', verifyToken, validatorHandler(orderSchemaCreate, 'body'), control.createOrder());
+router.put('/:id', verifyToken, validatorHandler(orderSchemaUpdate, 'body'), control.updateOrderById());
 router.delete('/:id', verifyToken, control.deleteOrderById());
 
 module.exports = router;

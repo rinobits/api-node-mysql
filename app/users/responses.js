@@ -3,8 +3,9 @@ const boom                      = require('@hapi/boom');
 
 // imports & consts
 const UserServices              = require('./services');
+const validatorHandler          = require('../../utils/middlewares/validatorHandler');
 const userServices              = new UserServices();
-
+const idSchema                  = require('./schemas');
 const searchUsers = () => {
     return (req, res, next) => {
         userServices.findUsers()
@@ -13,14 +14,10 @@ const searchUsers = () => {
                 for(i = 0; i < responses.users.length; i++){
                     delete responses.users[i].dataValues.userPassword;
                 }
-                responses = {...responses.users};
+                responses = [...responses.users];
                 res.json(responses);
             })
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const searchUserById = () => {
@@ -31,11 +28,7 @@ const searchUserById = () => {
                 delete response.user.dataValues.userPassword;
                 res.json(response.user.dataValues)
             })
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const createUser = () => {
@@ -43,36 +36,25 @@ const createUser = () => {
         const {body} = req;
         userServices.createUser(body)
             .then(response => res.json({"CREATED": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const updateUserById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        userServices.updateUserById(id, body) // (!)
+        validatorHandler(idSchema, id);
+        userServices.updateUserById(id, body) 
         .then(response => res.json({"MODIFY DATA": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+        .catch(e => next(boom.badImplementation()))
     }
 }
 const deleteUserById = () => {
     return (req, res, next) => {
-        const {id} = req.params
+        const {id} = req.params;
         userServices.deleteUserById(id)
             .then(response => res.json({'DELETE DATA' : true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

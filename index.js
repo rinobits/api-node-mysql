@@ -30,11 +30,11 @@ app.use(express.json());
 // routes
 routes(app);
 
-// catch 404
+// catch errors
 app.use(notFoundHandler);
-app.use(logError);
-app.use(wrapError);
-app.use(errorHandler);
+app.use(logError); 
+app.use(wrapError); 
+app.use(errorHandler); 
 
 app.listen(config.port, () => {
     console.log(`Listening on port ${config.port}`);

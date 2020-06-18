@@ -12,7 +12,7 @@ const { productSchemaCreate, productSchemaUpdate } = require('./schemas');
 router.get('/', control.searchProducts());
 router.get('/:id', control.searchProductById());
 // admin
-router.post('/', validatorHandler(productSchemaCreate, 'body'),verifyToken, control.createProduct());
-router.put('/:id', validatorHandler(productSchemaUpdate, 'body'),verifyToken, control.updateProductById());
+router.post('/', verifyToken, validatorHandler(productSchemaCreate, 'body'), control.createProduct());
+router.put('/:id', verifyToken, validatorHandler(productSchemaUpdate, 'body'),control.updateProductById());
 router.delete('/:id', verifyToken, deleteProductById());
 module.exports = router;

@@ -5,7 +5,6 @@ const boom                      = require('@hapi/boom');
 const OrderServices = require('./services');
 const orderServices = new OrderServices();
 
-
 const searchOrders = () => {
     return (req, res, next) => {
         orderServices.findOrders()
@@ -16,13 +15,9 @@ const searchOrders = () => {
                     tmp[i] = responses[i].dataValues;
                 }
                 responses = tmp;
-                res.json({...responses})
+                res.json([...responses])
             })
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
         }
 }
 const searchOrderById = () => {
@@ -33,11 +28,7 @@ const searchOrderById = () => {
                 delete response.orderPassword;
                 res.json(response)
             })
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
         }
 }
 const createOrder = () => {
@@ -45,12 +36,7 @@ const createOrder = () => {
             const {body} = req;
             orderServices.createOrder(body)
             .then(response => res.json({"CREATED": true}))
-            .catch(e => {
-                    console.log(e);
-                    e = boom.badRequest(e);
-                    e.output.payload.message = "Bad Request";
-                    res.json(e.output.payload);
-                })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const updateOrderById = () => {
@@ -59,11 +45,7 @@ const updateOrderById = () => {
         const {id}   = req.params;
         orderServices.updateOrderById(id, body) // (!)
         .then(response => res.json({"MODIFY DATA": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 const deleteOrderById = () => {
@@ -71,11 +53,7 @@ const deleteOrderById = () => {
         const {id} = req.params
         orderServices.deleteOrderById(id)
             .then(response => res.json({"DELETE DATA": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

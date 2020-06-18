@@ -5,7 +5,11 @@ const name     = Joi.string().min(2).max(15);
 const category = Joi.string().min(3).max(20).allow("");
 const value    = Joi.number().min(1).max(1000000).allow("");
 const hasOffer = Joi.number().min(1).max(999999).allow("");
+const id       = Joi.number().min(0);
 
+const idSchema = Joi.object({
+    id: id.required()
+})
 const productSchemaCreate = Joi.object({
     name :   name.required(),
     category: category.required(),
@@ -21,5 +25,6 @@ const productSchemaUpdate = Joi.object({
 
 module.exports = {
     productSchemaCreate,
-    productSchemaUpdate
+    productSchemaUpdate,
+    idSchema
 }

@@ -5,7 +5,6 @@ const boom                      = require('@hapi/boom');
 const ProductServices           = require('./services');
 const productServices           = new ProductServices();
 
-
 const searchProducts = () => {
     return (req, res, next) => {
         productServices.findProducts()
@@ -16,12 +15,9 @@ const searchProducts = () => {
                 tmp[i] = responses[i].dataValues;
             }
             responses = tmp;
-            res.json({...responses})
+            res.json([...responses])
         })
-        .catch(e => {
-                e = boom.badRequest(e);
-                res.json(e.output.payload);
-            })
+        .catch(e => next(boom.badImplementation(e)))
         }
 }
 const searchProductById = () => {
@@ -32,11 +28,7 @@ const searchProductById = () => {
                 delete response.productPassword;
                 res.json(response)
             })
-            .catch(e => {
-                e = boom.badRequest(e);
-                
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const createProduct = () => {
@@ -44,11 +36,7 @@ const createProduct = () => {
         const {body} = req;
         productServices.createProduct(body)
         .then(response => res.json({"CREATED": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 const updateProductById = () => {
@@ -57,22 +45,15 @@ const updateProductById = () => {
         const {id}   = req.params;
         productServices.updateProductById(id, body) 
             .then(response => res.json({"MODIFY DATA": true}))
-            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+            .catch(e => next(boom.badImplementation(e)))
         }
     }
 const deleteProductById = () => {
     return (req, res, next) => {
         const {id} = req.params
         productServices.deleteProductById(id)
-        .then(response => res.json({'DELETE DATA' : true}))            .catch(e => {
-                e = boom.badRequest(e);
-                e.output.payload.message = "Bad Request";
-                res.json(e.output.payload);
-            })
+        .then(response => res.json({'DELETE DATA' : true}))
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

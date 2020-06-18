@@ -13,15 +13,15 @@ module.exports =  (username, password) => {
                             const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'1h'});
                             resolve(token);
                         }else{
-                            reject({error: "can't authenticate"})
+                            reject("can't authenticate") // no enviar objetos en reject
                         }
                     })
                     .catch(e => {
-                        reject({error: "can't authenticate"});
+                        reject("can't authenticate");
                     })
             })
             .catch(err => {
-                reject({error: "can't authenticate"});
+                reject("can't authenticate");
             });
     });
 }

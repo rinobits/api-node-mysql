@@ -3,6 +3,7 @@ const boom = require('@hapi/boom');
 const {config} = require('../../config');
 
 const logError = (err, req, res, next) => {
+    console.log(err);
     next(err);
 }
 const wrapError = (err, req, res, next) => {
@@ -16,14 +17,12 @@ const withErrorStack = (err, stack) => {
     if(config.dev){
         return {error: err, stack}
     }
-    err.statusCode = 400;
-    err.message    = "Bad Implementation";
-    err.error      = "Bad Implementation";
     return {error: err}
 }
 const errorHandler = (err, req, res, next) => {
     const {output: {statusCode, payload}} = err;
-    res.status(statusCode).json(withErrorStack(payload, err.stack));
+    console.log(payload);
+    res.status(statusCode).json(payload);
 }
 module.exports = {
     logError,

@@ -7,7 +7,11 @@ const description   = Joi.string().allow("");
 const message       = Joi.string().allow("");
 const value         = Joi.number().min(1).max(1000000).allow("");
 const deposit       = Joi.number().min(1).max(999999).allow("");
+const id               = Joi.number().min(0);
 
+const idSchema         = Joi.object({
+    id: id.required()
+})
 const orderSchemaCreate = Joi.object({
     name : name.required(),
     phone,
@@ -30,5 +34,6 @@ const orderSchemaUpdate = Joi.object({
 
 module.exports = {
     orderSchemaCreate,
-    orderSchemaUpdate
+    orderSchemaUpdate,
+    idSchema
 }

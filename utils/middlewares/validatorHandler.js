@@ -8,14 +8,12 @@ const setValues = (values, data, req, next) => {
     req[data] = values;
     next();
 }
-const validatorHandler = (schema, data = 'body') => {
+const validatorHandler = (schema, data) => {
     return (req, res, next) => {
         const response = validate(req[data], schema);
         if(response.error){
-            //console.log(response.error);
             response.error = boom.badRequest(response.error);
-            response.error = response.error.output.payload;
-            res.json(response.error)
+            next(response.error);
         }
         else{
             setValues(response.value, data, req, next);
